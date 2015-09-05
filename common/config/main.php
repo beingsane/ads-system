@@ -31,8 +31,7 @@ return [
         'allowActions' => [
             'site/*',
             'user/*',
-            'debug/*',
-            // '*',				// uncomment this line if there is no users in database yet or if you want to get access to role management
+            '*',
         ],
     ],
 ];
