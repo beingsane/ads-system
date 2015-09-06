@@ -26,6 +26,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['index', 'about'],
                 'rules' => [
                     [
                         'actions' => ['index', 'about'],

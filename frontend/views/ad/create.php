@@ -7,7 +7,6 @@ use yii\helpers\Html;
 /* @var $model common\models\Ad */
 
 $this->title = Yii::t('app', 'Create Ad');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ad-create">

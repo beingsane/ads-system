@@ -7,7 +7,6 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Ad */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ad-view">
