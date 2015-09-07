@@ -31,7 +31,8 @@ class AdNewspaperPlacementDate extends \yii\db\ActiveRecord
         return [
             [['ad_newspaper_id', 'placement_date'], 'required'],
             [['ad_newspaper_id'], 'integer'],
-            [['placement_date'], 'safe']
+            [['placement_date'], 'safe'],
+            [['placement_date'], 'default', 'value' => null],
         ];
     }
 

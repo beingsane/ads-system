@@ -17,6 +17,9 @@ return [
         'rbac_admin' => [
             'class' => 'mdm\admin\Module',
         ],
+        'datecontrol' =>  [
+            'class' => '\kartik\datecontrol\Module',
+        ],
     ],
     'components' => [
         'cache' => [

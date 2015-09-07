@@ -36,6 +36,16 @@ class Ad extends \yii\db\ActiveRecord
             [['job_name'], 'string', 'max' => 1000]
         ];
     }
+    
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \yii\behaviors\TimestampBehavior::className(),
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -44,7 +54,7 @@ class Ad extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'job_name' => Yii::t('app', 'Job Name'),
+            'job_name' => Yii::t('app', 'Job'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

@@ -93,3 +93,62 @@ a.desc:after {
 .breadcrumb {
     border: 1px solid #ddd;
 }
+
+/* -------------------------------------------------------------------------------- */
+
+.form-like-horizontal label {
+    width: 100%;
+    text-align: right;
+    padding-top: 7px;
+}
+
+@media (max-width: 991px) {
+    .form-like-horizontal label {
+        text-align: left;
+    }
+}
+
+
+
+.tag-choice-container {
+    box-sizing: border-box;
+    display: block;
+    line-height: 1.42857;
+    list-style: outside none none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    margin: 0px -6px;
+}
+
+.tag-choice {
+    background: #f5f5f5 none repeat scroll 0 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #555555;
+    cursor: default;
+    float: left;
+    margin: 5px 0 0 6px;
+    padding: 0 6px;
+}
+
+.tag-choice-remove {
+    color: #000;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    margin-right: 3px;
+    opacity: 0.4;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.tag-choice-remove:hover {
+    opacity: 0.6;
+}
+
+/* -------------------------------------------------------------------------------- */
