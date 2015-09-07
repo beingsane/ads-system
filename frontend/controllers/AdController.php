@@ -74,36 +74,6 @@ class AdController extends Controller
             ]);
         }
     }
-    
-    public function actionGetJobLocationForm()
-    {
-        ob_start();
-        $form = ActiveForm::begin();
-        ob_get_clean();
-        
-        $html = $this->renderAjax('__form_job_location', [
-            'form' => $form,
-            'model' => new AdJobLocation(),
-            'showLabel' => false,
-            'showRemoveButton' => true,
-        ]);
-        return $html;
-    }
-    
-    public function actionGetNewspaperForm()
-    {
-        ob_start();
-        $form = ActiveForm::begin();
-        ob_get_clean();
-        
-        $html = $this->renderAjax('__form_newspaper', [
-            'form' => $form,
-            'model' => new AdNewspaper(),
-            'showLabel' => false,
-            'showRemoveButton' => true,
-        ]);
-        return $html;
-    }
 
     /**
      * Updates an existing Ad model.

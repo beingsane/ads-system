@@ -152,6 +152,9 @@ a.desc:after {
 }
 
 
+.m-t-xs {
+    margin-top: 5px;
+}
 
 .m-t-xs {
     margin-top: 5px;
@@ -190,4 +193,23 @@ a.desc:after {
     height: 10px;
 }
 
+
+.has-right-control {
+    width: auto;
+    margin-right: 70px;
+}
+
+.right-control {
+    width: 40px;
+    float: right;
+}
+
+.location-remove-item, .newspaper-remove-item {
+    color: #888;
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 0 1px 0 #fff;
+}
 /* -------------------------------------------------------------------------------- */
