@@ -7,78 +7,70 @@ use kartik\datecontrol\DateControl;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $parentModel common\models\Ad */
-/* @var $models common\models\AdNewspaper[] */
+/* @var $model common\models\AdNewspaper */
 
-if (!$models) {
-    $models = [new \common\models\AdNewspaper()];
-}
 ?>
 
-<div class="ad-form-newspapers">
-    <?php foreach ($models as $model) { ?>
-    
-        <div class="row">
-            <div class="col-md-12">
-                <?= $form->field($model, 'newspaper_name')->textInput(['maxlength' => true])->label(false) ?>
+<div class="ad-form-newspaper">
+    <div class="row">
+        <div class="col-md-12">
+            <?= $form->field($model, 'newspaper_name')->textInput(['maxlength' => true])->label(false) ?>
+        </div>
+        
+        <div class="col-md-12">
+            <div>
+                <div id="placement_date-ui-container" class="tag-choice-container">
+                    <?php foreach ($model->adNewspaperPlacementDates as $dateModel) { ?>
+                        <div class="tag-choice" title="<?= $dateModel->placement_date ?>">
+                            <span class="tag-choice-remove">×</span>
+                            
+                            <?= $dateModel->placement_date ?>
+                            
+                            <?= $form->field($dateModel, 'placement_date[]', ['options' => ['class' => 'hidden']])
+                                ->hiddenInput(['maxlength' => true])
+                                ->label(false)
+                            ?>
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
             
-            <div class="col-md-12">
-                <div>
-                    <div id="placement_date-ui-container" class="tag-choice-container">
-                        <?php foreach ($model->adNewspaperPlacementDates as $dateModel) { ?>
-                            <div class="tag-choice" title="<?= $dateModel->placement_date ?>">
-                                <span class="tag-choice-remove">×</span>
-                                
-                                <?= $dateModel->placement_date ?>
-                                
-                                <?= $form->field($dateModel, 'placement_date[]', ['options' => ['class' => 'hidden']])
-                                    ->hiddenInput(['maxlength' => true])
-                                    ->label(false)
-                                ?>
-                            </div>
-                        <?php } ?>
-                    </div>
+            <div id="placement_date-ui-container-item-template" class="hidden">
+                <div class="tag-choice" title="{text}">
+                    <span class="tag-choice-remove">×</span>
+                    {text}
+                    <?= $form->field(new \common\models\AdNewspaperPlacementDate(), 'placement_date[]', ['options' => ['class' => 'hidden']])
+                        ->hiddenInput(['maxlength' => true])
+                        ->label(false)
+                    ?>
                 </div>
-                
-                <div id="placement_date-ui-container-item-template" class="hidden">
-                    <div class="tag-choice" title="{text}">
-                        <span class="tag-choice-remove">×</span>
-                        {text}
-                        <?= $form->field(new \common\models\AdNewspaperPlacementDate(), 'placement_date[]', ['options' => ['class' => 'hidden']])
-                            ->hiddenInput(['maxlength' => true])
-                            ->label(false)
-                        ?>
-                    </div>
-                </div>
-                
-                
-                
-                <?= $form->field(new \common\models\AdNewspaperPlacementDate(), 'placement_date', ['template' => '{hint}{error}'])
-                    ->label(false)
-                ?>
             </div>
             
-            <div class="col-md-3">
-                <div class="form-group">
-                <?php
-                    echo DateControl::widget([
-                        'id' => 'new_ad_date',
-                        'name' => 'new_ad_date',
-                        'type' => 'date',
-                        'displayFormat' => 'dd-MM-yyyy',
-                        'saveFormat' => 'yyyy-MM-dd',
-                        'options' => [
-                            'pluginOptions' => ['autoclose' => true],
-                            'removeButton' => false,
-                        ],
-                    ]);
-                ?>
-                </div>
+            
+            
+            <?= $form->field(new \common\models\AdNewspaperPlacementDate(), 'placement_date', ['template' => '{hint}{error}'])
+                ->label(false)
+            ?>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="form-group">
+            <?php
+                echo DateControl::widget([
+                    'id' => 'new_ad_date',
+                    'name' => 'new_ad_date',
+                    'type' => 'date',
+                    'displayFormat' => 'dd-MM-yyyy',
+                    'saveFormat' => 'yyyy-MM-dd',
+                    'options' => [
+                        'pluginOptions' => ['autoclose' => true],
+                        'removeButton' => false,
+                    ],
+                ]);
+            ?>
             </div>
         </div>
-    
-    <?php } ?>
+    </div>
 </div>
 
 <?php

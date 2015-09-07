@@ -5,26 +5,18 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $parentModel common\models\Ad */
-/* @var $models common\models\AdJobLocation[] */
+/* @var $model common\models\AdJobLocation */
 
-if (!$models) {
-    $models = [new \common\models\AdJobLocation()];
-}
 ?>
 
-<div class="ad-form-job-locations">
-    <?php foreach ($models as $model) { ?>
-    
-        <div class="row">
-            <div class="col-md-6">
-                <?= $form->field($model, 'job_location')->textInput(['maxlength' => true])->label(false) ?>
-            </div>
-            
-            <div class="col-md-6">
-                <?= $form->field($model, 'additional_info')->textInput(['maxlength' => true])->label(false) ?>
-            </div>
+<div class="ad-form-job-location">
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'job_location')->textInput(['maxlength' => true])->label(false) ?>
         </div>
         
-    <?php } ?>
+        <div class="col-md-6">
+            <?= $form->field($model, 'additional_info')->textInput(['maxlength' => true])->label(false) ?>
+        </div>
+    </div>
 </div>
