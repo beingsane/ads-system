@@ -4,10 +4,14 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Ad;
+use common\models\AdJobLocation;
+use common\models\AdNewspaper;
+use common\models\AdNewspaperPlacementDate;
 use frontend\models\AdSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
 
 /**
  * AdController implements the CRUD actions for Ad model.
@@ -69,6 +73,36 @@ class AdController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+    
+    public function actionGetJobLocationForm()
+    {
+        ob_start();
+        $form = ActiveForm::begin();
+        ob_get_clean();
+        
+        $html = $this->renderAjax('__form_job_location', [
+            'form' => $form,
+            'model' => new AdJobLocation(),
+            'showLabel' => false,
+            'showRemoveButton' => true,
+        ]);
+        return $html;
+    }
+    
+    public function actionGetNewspaperForm()
+    {
+        ob_start();
+        $form = ActiveForm::begin();
+        ob_get_clean();
+        
+        $html = $this->renderAjax('__form_newspaper', [
+            'form' => $form,
+            'model' => new AdNewspaper(),
+            'showLabel' => false,
+            'showRemoveButton' => true,
+        ]);
+        return $html;
     }
 
     /**

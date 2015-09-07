@@ -61,6 +61,6 @@ class AdNewspaper extends \yii\db\ActiveRecord
      */
     public function getAdNewspaperPlacementDates()
     {
-        return $this->hasMany(AdNewspaperPlacementDate::className(), ['ad_newspaper_id' => 'id']);
+        return $this->hasMany(AdNewspaperPlacementDate::className(), ['ad_newspaper_id' => 'id'])->orderBy('placement_date');
     }
 }

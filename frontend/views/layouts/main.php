@@ -71,6 +71,7 @@ AppAsset::register($this);
         </footer>
 
         <?php $this->endBody() ?>
+        <script src="<?= Url::home() ?>js/main.js"></script>
     </body>
 </html>
 <?php $this->endPage() ?>
