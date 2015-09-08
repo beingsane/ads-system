@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\jui\DatePicker;
 use kartik\datecontrol\DateControl;
+use wbraganca\dynamicform\DynamicFormWidget;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
@@ -33,11 +34,34 @@ if (!isset($n)) $n = 0;
             </div>
             
             
+            
+            
+            
+            
+            <?php
+                $models = $model->adNewspaperPlacementDates;
+                if (empty($models)) $models = [new \common\models\AdNewspaperPlacementDate()];
+            ?>
+            <?php DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper_newspaper_dates', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.placement_date-container', // required: css class selector
+                'widgetItem' => '.tag-choice', // required: css class
+                'limit' => 100, // the maximum times, an element can be cloned (default 999)
+                'min' => 0, // 0 or 1 (default 1)
+                'insertButton' => '.dates-add-item', // css class
+                'deleteButton' => '.tag-choice-remove', // css class
+                'model' => $models[0],
+                'formId' => $form->id,
+                'formFields' => [
+                    'placement_date',
+                ],
+            ]); ?>
+            
             <div class="col-md-3">
                 <div class="form-group">
                     <?php
                         $dateControl = DateControl::begin([
-                            'id' => 'test-'.$n.'-new_ad_date',
+                            'id' => 'tmp-'.$n.'-new_ad_date',
                             'name' => '['.$n.']new_ad_date',
                             'type' => 'date',
                             'displayFormat' => 'dd-MM-yyyy',
@@ -53,42 +77,28 @@ if (!isset($n)) $n = 0;
                         ]);
                         DateControl::end();
                     ?>
+                    <button type="button" class="btn btn-primary btn-xs dates-add-item hidden"></button>
                 </div>
             </div>
             
-            
             <div class="col-md-9">
-                <div class="form-group">
-                    <div>
-                        <div class="placement_date_ui_container tag-choice-container">
-                            <?php foreach ($model->adNewspaperPlacementDates as $dateModel) { ?>
-                                <div class="tag-choice" title="<?= $dateModel->placement_date ?>">
-                                    <span class="tag-choice-remove">×</span>
-                                    
-                                    <?= $dateModel->placement_date ?>
-                                    
-                                    <?= $form->field($dateModel, '['.$n.']placement_date[]', ['options' => ['class' => 'hidden']])
-                                        ->hiddenInput(['maxlength' => true])
-                                        ->label(false)
-                                    ?>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    
-                    <div class="placement_date_ui_container_item_template hidden">
-                        <div class="tag-choice" title="{text}">
+                <div class="placement_date-container tag-choice-container">
+                    <?php foreach ($models as $i => $dateModel) { ?>
+                        <div class="tag-choice" title="<?= $dateModel->placement_date ?>">
                             <span class="tag-choice-remove">×</span>
-                            {text}
-                            <?= $form->field(new \common\models\AdNewspaperPlacementDate(), '['.$n.']placement_date[]', ['options' => ['class' => 'hidden']])
+                            
+                            <span class="date-text"><?= $dateModel->placement_date ?></span>
+                            
+                            <?= $form->field($dateModel, '['.$n.']['.$i.']placement_date', ['options' => ['class' => 'hidden']])
                                 ->hiddenInput(['maxlength' => true])
                                 ->label(false)
                             ?>
                         </div>
-                    </div>
-                    
+                    <?php } ?>
                 </div>
             </div>
+            
+            <?php DynamicFormWidget::end(); ?>
         </div>
     </div>
     
@@ -102,7 +112,7 @@ if (!isset($n)) $n = 0;
             function init()
             {
                 var mainContainer = $('.newspaper-item').last();
-                var container = $('.placement_date_ui_container', mainContainer);
+                var container = $('.placement_date-container', mainContainer);
                 
                 function updateDateContaiter(dispVal, val)
                 {
@@ -118,14 +128,10 @@ if (!isset($n)) $n = 0;
                     if (valueExists) return;
                     
                     
-                    var template = $('.placement_date_ui_container_item_template', mainContainer).html();
-                    
-                    var html = template;
-                    var text = dispVal;
-                    html = html.split('{text}').join(text);
-                    
-                    container.append(html);
-                    container.find('input').last().val(val);
+                    $('.dates-add-item', mainContainer).trigger('click');
+                    var item = $('.tag-choice', container).last();
+                    item.find('input').val(val);
+                    item.find('.date-text').text(dispVal);
                 }
                 
                 $('body').off('click', '.tag-choice-remove');
@@ -156,6 +162,7 @@ if (!isset($n)) $n = 0;
             
             init();
         });
+        
     ";
     $this->registerJs($script, $this::POS_END);
 ?>

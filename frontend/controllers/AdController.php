@@ -65,6 +65,10 @@ class AdController extends Controller
     public function actionCreate()
     {
         $model = new Ad();
+        if ($_POST) {
+            $model->load(Yii::$app->request->post());
+            var_dump($model, $_POST); die;
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
