@@ -9,8 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property integer $ad_id
- * @property string $newspaper_name
+ * @property integer $newspaper_id
  *
+ * @property Newspaper $newspaper
  * @property Ad $ad
  * @property AdNewspaperPlacementDate[] $adNewspaperPlacementDates
  */
@@ -30,9 +31,8 @@ class AdNewspaper extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ad_id', 'newspaper_name'], 'required'],
-            [['ad_id'], 'integer'],
-            [['newspaper_name'], 'string', 'max' => 1000]
+            [['ad_id', 'newspaper_id'], 'required'],
+            [['ad_id', 'newspaper_id'], 'integer']
         ];
     }
 
@@ -44,8 +44,16 @@ class AdNewspaper extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'ad_id' => Yii::t('app', 'Ad ID'),
-            'newspaper_name' => Yii::t('app', 'Newspaper Name'),
+            'newspaper_id' => Yii::t('app', 'Newspaper ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNewspaper()
+    {
+        return $this->hasOne(Newspaper::className(), ['id' => 'newspaper_id']);
     }
 
     /**
@@ -61,6 +69,6 @@ class AdNewspaper extends \yii\db\ActiveRecord
      */
     public function getAdNewspaperPlacementDates()
     {
-        return $this->hasMany(AdNewspaperPlacementDate::className(), ['ad_newspaper_id' => 'id'])->orderBy('placement_date');
+        return $this->hasMany(AdNewspaperPlacementDate::className(), ['ad_newspaper_id' => 'id']);
     }
 }

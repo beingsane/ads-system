@@ -20,7 +20,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
             <div class="col-md-12">
                 <label class="control-label"><?= Yii::t('app', 'Job') ?></label>
                 
-                <?= $form->field($model, 'job_name')
+                <?= $form->field($model, 'job_id')
                     ->textInput([
                         'maxlength' => true,
                         'placeholder' => Yii::t('app', 'Select job'),

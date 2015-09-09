@@ -8,10 +8,11 @@ use Yii;
  * This is the model class for table "ad".
  *
  * @property integer $id
- * @property string $job_name
+ * @property integer $job_id
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property Job $job
  * @property AdJobLocation[] $adJobLocations
  * @property AdNewspaper[] $adNewspapers
  */
@@ -31,9 +32,9 @@ class Ad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['job_name', 'created_at', 'updated_at'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['job_name'], 'string', 'max' => 1000]
+            [['job_id', 'created_at', 'updated_at'], 'required'],
+            [['job_id'], 'integer'],
+            [['created_at', 'updated_at'], 'safe']
         ];
     }
     
@@ -54,10 +55,18 @@ class Ad extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'job_name' => Yii::t('app', 'Job'),
+            'job_id' => Yii::t('app', 'Job ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJob()
+    {
+        return $this->hasOne(Job::className(), ['id' => 'job_id']);
     }
 
     /**

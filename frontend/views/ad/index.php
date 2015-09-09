@@ -25,7 +25,7 @@ $this->title = Yii::t('app', 'Ads');
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'job_name',
+            'job_id',
             'created_at',
             'updated_at',
 

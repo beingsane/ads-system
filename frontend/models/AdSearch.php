@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use common\models\Ad;
 
 /**
- * AdSearch represents the model behind the search form about `common\models\Ad`.
+ * AdSearch represents the model behind the search form about `\common\models\Ad`.
  */
 class AdSearch extends Ad
 {
@@ -18,8 +18,8 @@ class AdSearch extends Ad
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['job_name', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'job_id'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -57,11 +57,10 @@ class AdSearch extends Ad
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'job_id' => $this->job_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
-
-        $query->andFilterWhere(['like', 'job_name', $this->job_name]);
 
         return $dataProvider;
     }

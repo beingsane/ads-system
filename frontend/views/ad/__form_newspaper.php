@@ -24,11 +24,11 @@ if (!isset($n)) $n = 0;
     <div class="has-right-control">
         <div class="row">
             <div class="col-md-12">
-                <?= $form->field($model, '['.$n.']newspaper_name')
+                <?= $form->field($model, '['.$n.']newspaper_id')
                     ->textInput([
                         'maxlength' => true,
-                        'placeholder' => $model->getAttributeLabel('newspaper_name'),
-                        'title' => $model->getAttributeLabel('newspaper_name'),
+                        'placeholder' => Yii::t('app', 'Select newspaper'),
+                        'title' => Yii::t('app', 'Select newspaper'),
                     ])
                     ->label(false) ?>
             </div>
