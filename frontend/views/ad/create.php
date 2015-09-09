@@ -9,6 +9,7 @@ use yii\helpers\Url;
 
 $this->title = Yii::t('app', 'Create Ad');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="ad-create">
 

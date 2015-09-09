@@ -56,6 +56,82 @@ class AdController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+    
+    public function loadRelation($mainModel, $relationName, $relatedModelClassName, $data)
+    {
+        $loaded = true;
+        $models = [];
+        $stub = new $relatedModelClassName;
+        
+        foreach ($data[$stub->formName()] as $modelData) {
+            if (isset($modelData['id'])) {
+                $model = $relatedModelClassName::findOne($modelData['id']);
+                
+                if (!$model) {
+                    unset($modelData['id']);
+                    $model = new $relatedModelClassName();
+                }
+            } else {
+                $model = new $relatedModelClassName();
+            }
+            
+            $currentModelLoaded = $model->load([$stub->formName() => $modelData]);
+            if (!$currentModelLoaded) $loaded = false;
+            
+            $models[] = $model;
+        }
+        $mainModel->populateRelation($relationName, $models);
+        unset($stub);
+        
+        return $loaded;
+    }
+    
+    public function loadModelWithRelations($model, $data)
+    {
+        $modelLoaded = true;
+        do {
+            $loaded = $model->load($data);
+            $modelLoaded = $loaded && $modelLoaded;
+            if (!$modelLoaded) break;
+            
+            $loaded = $this->loadRelation($model, 'adJobLocations', AdJobLocation::className(), $data);
+            $modelLoaded = $loaded && $modelLoaded;
+            
+            $loaded = $this->loadRelation($model, 'adNewspapers', AdNewspaper::className(), $data);
+            $modelLoaded = $loaded && $modelLoaded;
+            
+            $stub = new AdNewspaperPlacementDate();
+            foreach ($model->adNewspapers as $i => $adNewspaper) {
+                $loaded = $this->loadRelation($adNewspaper, 'adNewspaperPlacementDates', AdNewspaperPlacementDate::className(),
+                    [$stub->formName() => $data[$stub->formName()][$i]]);
+                $modelLoaded = $loaded && $modelLoaded;
+            }
+        }
+        while (false);
+        
+        return $modelLoaded;
+    }
+    
+    public function dump($model)
+    {
+        var_dump($_POST);
+        
+        var_dump($model->attributes);
+        
+        foreach ($model->adJobLocations as $adJobLocation) {
+            var_dump($adJobLocation->attributes);
+        }
+        
+        foreach ($model->adNewspapers as $adNewspaper) {
+            var_dump($adNewspaper->attributes);
+            
+            foreach ($adNewspaper->adNewspaperPlacementDates as $date) {
+                var_dump($date->attributes);
+            }
+        }
+        
+        die;
+    }
 
     /**
      * Creates a new Ad model.
@@ -65,18 +141,21 @@ class AdController extends Controller
     public function actionCreate()
     {
         $model = new Ad();
-        if ($_POST) {
-            $model->load(Yii::$app->request->post());
-            var_dump($model, $_POST); die;
+        $post = Yii::$app->request->post();
+        if ($this->loadModelWithRelations($model, $post)) {
+            
+            $this->dump($model);
+            
+            $saved = $model->save();
+            
+            if ($saved) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
