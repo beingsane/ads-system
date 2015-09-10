@@ -89,8 +89,6 @@ class AdController extends Controller
         $post = Yii::$app->request->post();
         if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
             
-            $this->dump($model);
-            
             $saved = $model->saveWithRelations();
             
             if ($saved) {

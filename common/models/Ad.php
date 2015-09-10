@@ -182,6 +182,54 @@ class Ad extends \yii\db\ActiveRecord
     
     public function saveWithRelations()
     {
-        ;
+        $transaction = \Yii::$app->db->beginTransaction();
+        $saved = false;
+        try {
+            do {
+                $saved = $this->save(false);
+                if (!$saved) break;
+                
+                $ad_id = $this->id;
+                
+                foreach ($this->adJobLocations as $modelLocation) {
+                    $modelLocation->ad_id = $ad_id;
+                    $saved = $modelLocation->save(false);
+                    if (!$saved) break;
+                }
+                if (!$saved) break;
+                
+                foreach ($this->adNewspapers as $modelNewspaper) {
+                    $modelNewspaper->ad_id = $ad_id;
+                    $saved = $modelNewspaper->save(false);
+                    if (!$saved) break;
+                    
+                    $ad_newspaper_id = $modelNewspaper->id;
+                    foreach ($modelNewspaper->adNewspaperPlacementDates as $modelPlacementDate) {
+                        $modelPlacementDate->ad_newspaper_id = $ad_newspaper_id;
+                        $saved = $modelPlacementDate->save(false);
+                        if (!$saved) break;
+                    }
+                    if (!$saved) break;
+                }
+                if (!$saved) break;
+                
+                $saved = true;
+            } while(false);
+            
+        } catch (\Exception $e) {
+            Yii::error($e->getMessage());
+            $message = (YII_DEBUG ? $e->getMessage() : Yii::t('app', 'Error occured while saving in database'));
+            Yii::$app->session->setFlash('error', $message);
+            
+            $saved = false;
+        }
+        
+        if ($saved) {
+            $transaction->commit();
+        } else {
+            $transaction->rollBack();
+        }
+        
+        return $saved;
     }
 }
