@@ -71,4 +71,17 @@ class AdNewspaper extends \yii\db\ActiveRecord
     {
         return $this->hasMany(AdNewspaperPlacementDate::className(), ['ad_newspaper_id' => 'id']);
     }
+    
+    public function validate($attributeNames = NULL, $clearErrors = true)
+    {
+        $res = parent::validate($attributeNames, $clearErrors);
+        
+        $attribute = 'adNewspaperPlacementDates';
+        if (empty($this->$attribute)) {
+            $this->addError($attribute, Yii::t('app', 'You have to add at least one placement date'));
+            $res = false;
+        }
+        
+        return $res;
+    }
 }

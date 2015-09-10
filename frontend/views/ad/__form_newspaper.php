@@ -57,9 +57,11 @@ if (!isset($n)) $n = 0;
             ]); ?>
             
             <div class="col-md-3">
-                <div class="form-group">
+                <?php $errors = $model->getErrors('adNewspaperPlacementDates'); ?>
+                
+                <div class="form-group required <?= (empty($errors) ? '' : 'has-error') ?>">
                     <?php
-                        $dateControl = DateControl::begin($dateControlOptions = [
+                        $dateControl = DateControl::begin([
                             'id' => 'tmp-'.$n.'-new_ad_date',
                             'name' => '['.$n.']new_ad_date',
                             'type' => 'date',
@@ -75,6 +77,11 @@ if (!isset($n)) $n = 0;
                             ],
                         ]);
                         DateControl::end();
+                        
+                        
+                        if (!empty($errors)) {
+                            echo Html::tag('div', Html::encode(implode('<br>', $errors)), ['class' => 'help-block']);
+                        }
                     ?>
                     <button type="button" class="btn btn-primary btn-xs dates-add-item hidden"></button>
                 </div>

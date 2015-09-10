@@ -177,7 +177,7 @@ use kartik\datecontrol\DateControl;
                 datecontrol_opt['idSave'] = jQuery('[id$=\"new_ad_date\"]', mainContainer).attr('id');
                 var kvDatepicker_opt = ".json_encode(['format' => 'dd-mm-yyyy', 'autoclose' => true]).";
                 jQuery('[id$=\"new_ad_date-disp\"]', mainContainer).datecontrol(datecontrol_opt);
-                jQuery('[id$=\"new_ad_date-disp-kvdate\"]', mainContainer).kvDatepicker(kvDatepicker_opt);
+                var kvDatePicker = jQuery('[id$=\"new_ad_date-disp-kvdate\"]', mainContainer).kvDatepicker(kvDatepicker_opt);
                 
                 
                 var container = $('.placement_date-container', mainContainer);
@@ -199,12 +199,14 @@ use kartik\datecontrol\DateControl;
                     var item = $('.tag-choice', container).last();
                     item.find('input').val(val);
                     item.find('.date-text').text(dispVal);
+                    
+                    // add 'has-success' class after adding date
+                    kvDatePicker.closest('.form-group')
+                        .removeClass('has-error')
+                        .addClass('has-success')
+                        .find('.help-block')
+                        .html('');
                 }
-                
-                $('body').off('click', '.tag-choice-remove');
-                $('body').on('click', '.tag-choice-remove', function() {
-                    $(this).closest('.tag-choice').remove();
-                });
                 
                 $('[id$=\"new_ad_date\"]', mainContainer).off('change');
                 $('[id$=\"new_ad_date\"]', mainContainer).on('change', function() {
@@ -213,6 +215,7 @@ use kartik\datecontrol\DateControl;
                     if (val) {
                         updateDateContaiter(dispVal, val);
                         datepicker.kvDatepicker('clearDates');
+                        $(this).val('');
                     }
                 });
             }
