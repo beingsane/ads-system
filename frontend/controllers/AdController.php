@@ -57,61 +57,6 @@ class AdController extends Controller
         ]);
     }
     
-    public function loadRelation($mainModel, $relationName, $relatedModelClassName, $data)
-    {
-        $loaded = true;
-        $models = [];
-        $stub = new $relatedModelClassName;
-        
-        foreach ($data[$stub->formName()] as $modelData) {
-            if (isset($modelData['id'])) {
-                $model = $relatedModelClassName::findOne($modelData['id']);
-                
-                if (!$model) {
-                    unset($modelData['id']);
-                    $model = new $relatedModelClassName();
-                }
-            } else {
-                $model = new $relatedModelClassName();
-            }
-            
-            $currentModelLoaded = $model->load([$stub->formName() => $modelData]);
-            if (!$currentModelLoaded) $loaded = false;
-            
-            $models[] = $model;
-        }
-        $mainModel->populateRelation($relationName, $models);
-        unset($stub);
-        
-        return $loaded;
-    }
-    
-    public function loadModelWithRelations($model, $data)
-    {
-        $modelLoaded = true;
-        do {
-            $loaded = $model->load($data);
-            $modelLoaded = $loaded && $modelLoaded;
-            if (!$modelLoaded) break;
-            
-            $loaded = $this->loadRelation($model, 'adJobLocations', AdJobLocation::className(), $data);
-            $modelLoaded = $loaded && $modelLoaded;
-            
-            $loaded = $this->loadRelation($model, 'adNewspapers', AdNewspaper::className(), $data);
-            $modelLoaded = $loaded && $modelLoaded;
-            
-            $stub = new AdNewspaperPlacementDate();
-            foreach ($model->adNewspapers as $i => $adNewspaper) {
-                $loaded = $this->loadRelation($adNewspaper, 'adNewspaperPlacementDates', AdNewspaperPlacementDate::className(),
-                    [$stub->formName() => $data[$stub->formName()][$i]]);
-                $modelLoaded = $loaded && $modelLoaded;
-            }
-        }
-        while (false);
-        
-        return $modelLoaded;
-    }
-    
     public function dump($model)
     {
         var_dump($_POST);
@@ -142,11 +87,11 @@ class AdController extends Controller
     {
         $model = new Ad();
         $post = Yii::$app->request->post();
-        if ($this->loadModelWithRelations($model, $post)) {
+        if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
             
             $this->dump($model);
             
-            $saved = $model->save();
+            $saved = $model->saveWithRelations();
             
             if ($saved) {
                 return $this->redirect(['view', 'id' => $model->id]);

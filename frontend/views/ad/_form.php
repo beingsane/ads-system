@@ -5,7 +5,8 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use common\models\AdJobLocation;
 use common\models\AdNewspaper;
-use wbraganca\dynamicform\DynamicFormWidget;
+use common\widgets\dynamicform\DynamicFormWidget;
+use kartik\datecontrol\DateControl;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Ad */
@@ -85,6 +86,28 @@ use wbraganca\dynamicform\DynamicFormWidget;
         <?php
             $models = $model->adNewspapers;
             if (empty($models)) $models = [new AdNewspaper()];
+            
+            $dateControlOptions = [
+                'id' => 'tmp-'.$n.'-new_ad_date',
+                'name' => '['.$n.']new_ad_date',
+                'type' => 'date',
+                'displayFormat' => 'dd-MM-yyyy',
+                'saveFormat' => 'yyyy-MM-dd',
+                'options' => [
+                    'pluginOptions' => ['autoclose' => true],
+                    'removeButton' => false,
+                    'options' => [
+                        'placeholder' => Yii::t('app', 'Placement date'),
+                        'title' => Yii::t('app', 'Placement date'),
+                    ],
+                ],
+            ];
+            
+            // get DateControl object to access settings
+            ob_start();
+            $dateControl = DateControl::begin($dateControlOptions);
+            DateControl::end();
+            ob_get_clean();
         ?>
         <?php DynamicFormWidget::begin([
             'widgetContainer' => 'dynamicform_wrapper_newspapers', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
@@ -94,7 +117,8 @@ use wbraganca\dynamicform\DynamicFormWidget;
             'min' => 1, // 0 or 1 (default 1)
             'insertButton' => '.newspaper-add-item', // css class
             'deleteButton' => '.newspaper-remove-item', // css class
-            'model' => $models[0],
+            'model' => new AdNewspaper(),
+            'template' => $this->render('__form_newspaper', ['form' => $form, 'model' => new AdNewspaper(), 'n' => 0]),
             'formId' => $form->id,
             'formFields' => [
                 'job_location',
@@ -143,3 +167,67 @@ use wbraganca\dynamicform\DynamicFormWidget;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+    $script = "
+        $(document).ready(function() {
+            function init(mainContainer)
+            {
+                var datecontrol_opt = ".json_encode($dateControl->pluginOptions).";
+                datecontrol_opt['idSave'] = jQuery('[id$=\"new_ad_date\"]', mainContainer).attr('id');
+                var kvDatepicker_opt = ".json_encode(['format' => 'dd-mm-yyyy', 'autoclose' => true]).";
+                jQuery('[id$=\"new_ad_date-disp\"]', mainContainer).datecontrol(datecontrol_opt);
+                jQuery('[id$=\"new_ad_date-disp-kvdate\"]', mainContainer).kvDatepicker(kvDatepicker_opt);
+                
+                
+                var container = $('.placement_date-container', mainContainer);
+                
+                function updateDateContaiter(dispVal, val)
+                {
+                    var valueExists = false;
+                    container.find('input').each(function(i, e) {
+                        if ($(this).val() == val) {
+                            valueExists = true;
+                            return false;
+                        }
+                        
+                        return true;
+                    });
+                    if (valueExists) return;
+                    
+                    $('.dates-add-item', mainContainer).trigger('click');
+                    var item = $('.tag-choice', container).last();
+                    item.find('input').val(val);
+                    item.find('.date-text').text(dispVal);
+                }
+                
+                $('body').off('click', '.tag-choice-remove');
+                $('body').on('click', '.tag-choice-remove', function() {
+                    $(this).closest('.tag-choice').remove();
+                });
+                
+                $('[id$=\"new_ad_date\"]', mainContainer).off('change');
+                $('[id$=\"new_ad_date\"]', mainContainer).on('change', function() {
+                    var datepicker = $(this).parent().find('#' + $(this).attr('id') + '-disp-kvdate');
+                    var dispVal = datepicker.find('input').val(), val = $(this).val();
+                    if (val) {
+                        updateDateContaiter(dispVal, val);
+                        datepicker.kvDatepicker('clearDates');
+                    }
+                });
+            }
+            
+            $('.dynamicform_wrapper_newspapers').on('afterInsert', function(e, item) {
+                var mainContainer = $('.newspaper-item').last();
+                init(mainContainer);
+            });
+            
+            $('.newspaper-item').each(function() {
+                var mainContainer = $(this);
+                init(mainContainer);
+            });
+        });
+        
+    ";
+    $this->registerJs($script, $this::POS_END);
+?>
