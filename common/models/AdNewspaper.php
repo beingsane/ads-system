@@ -31,8 +31,8 @@ class AdNewspaper extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ad_id', 'newspaper_id'], 'required'],
-            [['ad_id', 'newspaper_id'], 'integer']
+            [['newspaper_id'], 'required'],
+            [['newspaper_id'], 'integer']
         ];
     }
 

@@ -32,7 +32,7 @@ class Ad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['job_id', 'created_at', 'updated_at'], 'required'],
+            [['job_id'], 'required'],
             [['job_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe']
         ];

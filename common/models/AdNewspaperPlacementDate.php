@@ -29,10 +29,7 @@ class AdNewspaperPlacementDate extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ad_newspaper_id', 'placement_date'], 'required'],
-            [['ad_newspaper_id'], 'integer'],
-            [['placement_date'], 'safe'],
-            [['placement_date'], 'default', 'value' => null],
+            [['placement_date'], 'required'],
         ];
     }
 

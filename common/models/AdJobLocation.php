@@ -30,8 +30,7 @@ class AdJobLocation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ad_id', 'job_location'], 'required'],
-            [['ad_id'], 'integer'],
+            [['job_location'], 'required'],
             [['job_location', 'additional_info'], 'string', 'max' => 1000]
         ];
     }
