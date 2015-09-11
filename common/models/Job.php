@@ -36,6 +36,23 @@ class Job extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \common\behaviors\SoftDeleteBehavior::className(),
+                'value' => new \yii\db\Expression('NOW()'),
+                'type' => \common\behaviors\SoftDeleteBehavior::HARD_SOFT_TYPE,
+                'relatedTables' => [
+                    'ad' => ['column' => 'id', 'foreignColumn' => 'job_id'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [

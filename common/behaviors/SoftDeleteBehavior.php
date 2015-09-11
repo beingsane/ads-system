@@ -18,7 +18,7 @@ class SoftDeleteBehavior extends AttributeBehavior
      * If related records exist in related tables, don't delete record, set $deletedAtAttribute to $value
      * Otherwise delete record
      */
-    const SOFT_HARD_TYPE = 'soft-hard';
+    const HARD_SOFT_TYPE = 'hard-soft';
     
     /**
      * Delete record anyway. Equals to usual delete
@@ -63,8 +63,8 @@ class SoftDeleteBehavior extends AttributeBehavior
         if ($this->type == self::SOFT_TYPE) {
             $this->makeSoftDelete($event);
             $canDelete = false;
-        } else if ($this->type == self::SOFT_HARD_TYPE) {
-            $canDelete = $this->makeSoftHardDelete();
+        } else if ($this->type == self::HARD_SOFT_TYPE) {
+            $canDelete = $this->makeSoftHardDelete($event);
         } else if ($this->type == self::HARD_TYPE) {
             $canDelete = true;
         }
@@ -90,7 +90,7 @@ class SoftDeleteBehavior extends AttributeBehavior
             
             // "SELECT 1 FROM `{$tableName}` WHERE `{$foreignColumn}` = {$model->$column} LIMIT 1";
             $query = new Query();
-            $query->select('1')
+            $query->select([new \yii\db\Expression('1')])
                 ->from($tableName)
                 ->where([$foreignColumn => $model->$column])
                 ->limit(1);

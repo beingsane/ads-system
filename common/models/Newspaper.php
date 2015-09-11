@@ -36,6 +36,23 @@ class Newspaper extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \common\behaviors\SoftDeleteBehavior::className(),
+                'value' => new \yii\db\Expression('NOW()'),
+                'type' => \common\behaviors\SoftDeleteBehavior::HARD_SOFT_TYPE,
+                'relatedTables' => [
+                    'ad_newspaper' => ['column' => 'id', 'foreignColumn' => 'newspaper_id'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [

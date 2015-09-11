@@ -38,6 +38,9 @@ class Ad extends \yii\db\ActiveRecord
         ];
     }
     
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
@@ -48,7 +51,7 @@ class Ad extends \yii\db\ActiveRecord
             [
                 'class' => \common\behaviors\SoftDeleteBehavior::className(),
                 'value' => new \yii\db\Expression('NOW()'),
-                'type' => 'soft',
+                'type' => \common\behaviors\SoftDeleteBehavior::SOFT_TYPE,
             ]
         ];
     }
