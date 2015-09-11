@@ -18,6 +18,7 @@ if (!isset($n)) $n = 0;
 <div class="location-item">
     <div class="right-control">
         <button class="location-remove-item btn btn-default" type="button">×</button>
+        <?php if ($model->id) echo Html::activeHiddenInput($model, '['.$n.']id'); ?>
     </div>
     
     <div class="has-right-control">

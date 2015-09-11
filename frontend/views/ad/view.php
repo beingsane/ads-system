@@ -6,32 +6,49 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Ad */
 
-$this->title = $model->id;
+$this->title = Yii::t('app', 'View').': '.$model->id;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ad-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div>
+        <div class="pull-left h3 m-t-xs"><b><?= Html::encode(Yii::t('app', 'ID').': '.$model->id) ?></b></div>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+        <div class="pull-right">
+            <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                    'method' => 'post',
+                ],
+            ]) ?>
+        </div>
+    </div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div class="space"></div>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'job_id',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
+    <div class="row">
+        <div class="col-md-12 m-t-md">
+            <b><?= $model->job->job_name ?></b>
+            <br>
+            
+            <?php foreach ($model->adJobLocations as $adJobLocation) { ?>
+                <?= $adJobLocation->job_location ?><?= $adJobLocation->additional_info ? '. '.$adJobLocation->additional_info : '' ?><br>
+            <?php } ?>
+        </div>
+        
+        <div class="col-md-12 m-t-md">
+            <?php foreach ($model->adNewspapers as $adNewspaper) { ?>
+                <b><?= $adNewspaper->newspaper->newspaper_name ?>: </b>
+                &nbsp;&nbsp;
+                <?= implode(';&nbsp;&nbsp;', $adNewspaper->adNewspaperPlacementDates) ?><br>
+            <?php } ?>
+        </div>
+    </div>
 
 </div>

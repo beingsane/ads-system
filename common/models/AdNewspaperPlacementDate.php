@@ -52,4 +52,9 @@ class AdNewspaperPlacementDate extends \yii\db\ActiveRecord
     {
         return $this->hasOne(AdNewspaper::className(), ['id' => 'ad_newspaper_id']);
     }
+    
+    public function __toString()
+    {
+        return Yii::$app->formatter->asDate($this->placement_date);
+    }
 }

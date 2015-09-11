@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $model common\models\AdNewspaperPlacementDate */
@@ -15,6 +17,8 @@ if (!isset($i)) $i = 0;
     <span class="tag-choice-remove">×</span>
     
     <span class="date-text"><?= $model->placement_date ?></span>
+    
+    <?php if ($model->id) echo Html::activeHiddenInput($model, '['.$n.']['.$i.']id'); ?>
     
     <?= $form->field($model, '['.$n.']['.$i.']placement_date', ['options' => ['class' => 'hidden']])
         ->hiddenInput(['maxlength' => true])

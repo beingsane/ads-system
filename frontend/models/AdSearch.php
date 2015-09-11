@@ -58,6 +58,7 @@ class AdSearch extends Ad
         $query->andFilterWhere([
             'id' => $this->id,
             'job_id' => $this->job_id,
+            'user_id' => Yii::$app->user->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

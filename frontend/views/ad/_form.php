@@ -23,6 +23,8 @@ use backend\models\JobSearch;
         
         <div class="row">
             <div class="col-md-12">
+                <?php if ($model->id) echo Html::activeHiddenInput($model, 'id'); ?>
+                
                 <label class="control-label"><?= Yii::t('app', 'Job') ?></label>
                 
                 <?= $render->selectField('job_id', JobSearch::jobList(), ['placeholder' => Yii::t('app', 'Select job...')])->label(false) ?>

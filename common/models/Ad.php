@@ -3,11 +3,13 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "ad".
  *
  * @property integer $id
+ * @property integer $user_id
  * @property integer $job_id
  * @property string $created_at
  * @property string $updated_at
@@ -15,6 +17,7 @@ use Yii;
  * @property Job $job
  * @property AdJobLocation[] $adJobLocations
  * @property AdNewspaper[] $adNewspapers
+ * @property User $user
  */
 class Ad extends \yii\db\ActiveRecord
 {
@@ -34,7 +37,6 @@ class Ad extends \yii\db\ActiveRecord
         return [
             [['job_id'], 'required'],
             [['job_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe']
         ];
     }
     
@@ -52,7 +54,12 @@ class Ad extends \yii\db\ActiveRecord
                 'class' => \common\behaviors\SoftDeleteBehavior::className(),
                 'value' => new \yii\db\Expression('NOW()'),
                 'type' => \common\behaviors\SoftDeleteBehavior::SOFT_TYPE,
-            ]
+            ],
+            [
+                'class' => \yii\behaviors\BlameableBehavior::className(),
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => false,
+            ],
         ];
     }
 
@@ -63,7 +70,7 @@ class Ad extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'job_id' => Yii::t('app', 'Job ID'),
+            'job_id' => Yii::t('app', 'Job'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
@@ -122,10 +129,12 @@ class Ad extends \yii\db\ActiveRecord
                 
                 $models[] = $model;
             }
+            
             $mainModel->populateRelation($relationName, $models);
         } else {
             $loaded = false;
         }
+        
         return $loaded;
     }
     
@@ -172,14 +181,14 @@ class Ad extends \yii\db\ActiveRecord
             $itemValidated = $this->validate();
             $validated = $validated && $itemValidated;
             
-            $itemValidated = self::validateMultiple($this->adJobLocations);
+            $itemValidated = static::validateMultiple($this->adJobLocations);
             $validated = $validated && $itemValidated;
             
-            $itemValidated = self::validateMultiple($this->adNewspapers);
+            $itemValidated = static::validateMultiple($this->adNewspapers);
             $validated = $validated && $itemValidated;
             
             foreach ($this->adNewspapers as $i => $adNewspaper) {
-                $itemValidated = self::validateMultiple($adNewspaper->adNewspaperPlacementDates);
+                $itemValidated = static::validateMultiple($adNewspaper->adNewspaperPlacementDates);
                 $validated = $validated && $itemValidated;
             }
         }
@@ -188,17 +197,47 @@ class Ad extends \yii\db\ActiveRecord
         return $validated;
     }
     
+    public function getModel($id, $className)
+    {
+        if ($id) {
+            $model = $className::findOne($id);
+        } else {
+            $model = new $className();
+        }
+        
+        return $model;
+    }
+    
+    public function deleteRelations($oldModels, $newModels, $modelClassName)
+    {
+        $oldIDs = ArrayHelper::map($oldModels, 'id', 'id');
+        $newIDs = ArrayHelper::map($newModels, 'id', 'id');
+        $deletedIDs = array_filter(array_diff($oldIDs, $newIDs));
+        
+        if (!empty($deletedIDs)) {
+            // it does not delete inner relations so it is needed to setup cascade deletion
+            // in foreign key settings in database
+            $modelClassName::deleteAll(['id' => $deletedIDs]);
+        }
+    }
+    
     public function saveWithRelations()
     {
         $transaction = \Yii::$app->db->beginTransaction();
         $saved = false;
         try {
             do {
+                // we need to reload model because we need to get all previous relations
+                $oldModel = $this->getModel($this->id, static::className());
+                
+                
                 $saved = $this->save(false);
                 if (!$saved) break;
                 
                 $ad_id = $this->id;
                 
+                
+                $this->deleteRelations($oldModel->adJobLocations, $this->adJobLocations, AdJobLocation::className());
                 foreach ($this->adJobLocations as $modelLocation) {
                     $modelLocation->ad_id = $ad_id;
                     $saved = $modelLocation->save(false);
@@ -206,12 +245,23 @@ class Ad extends \yii\db\ActiveRecord
                 }
                 if (!$saved) break;
                 
+                
+                
+                $this->deleteRelations($oldModel->adNewspapers, $this->adNewspapers, AdNewspaper::className());
                 foreach ($this->adNewspapers as $modelNewspaper) {
+                    $oldModelNewspaper = $this->getModel($modelNewspaper->id, AdNewspaper::className());
+                    
                     $modelNewspaper->ad_id = $ad_id;
                     $saved = $modelNewspaper->save(false);
                     if (!$saved) break;
                     
                     $ad_newspaper_id = $modelNewspaper->id;
+                    
+                    
+                    $this->deleteRelations($oldModelNewspaper->adNewspaperPlacementDates,
+                        $modelNewspaper->adNewspaperPlacementDates,
+                        AdNewspaperPlacementDate::className()
+                    );
                     foreach ($modelNewspaper->adNewspaperPlacementDates as $modelPlacementDate) {
                         $modelPlacementDate->ad_newspaper_id = $ad_newspaper_id;
                         $saved = $modelPlacementDate->save(false);
@@ -221,10 +271,11 @@ class Ad extends \yii\db\ActiveRecord
                 }
                 if (!$saved) break;
                 
+                
                 $saved = true;
             } while(false);
             
-        } catch (\Exception $e) {
+        } catch (\yii\db\Exception $e) {
             Yii::error($e->getMessage());
             $message = (YII_DEBUG ? $e->getMessage() : Yii::t('app', 'Error occured while saving in database'));
             Yii::$app->session->setFlash('error', $message);

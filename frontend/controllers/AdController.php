@@ -86,6 +86,7 @@ class AdController extends Controller
     public function actionCreate()
     {
         $model = new Ad();
+        
         $post = Yii::$app->request->post();
         if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
             
@@ -111,13 +112,19 @@ class AdController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $post = Yii::$app->request->post();
+        if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
+            
+            $saved = $model->saveWithRelations();
+            
+            if ($saved) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

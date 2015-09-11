@@ -24,6 +24,7 @@ $render = new Render($form, $model);
 <div class="newspaper-item">
     <div class="right-control">
         <button class="newspaper-remove-item btn btn-default" type="button">×</button>
+        <?php if ($model->id) echo Html::activeHiddenInput($model, '['.$n.']id'); ?>
     </div>
     
     <div class="has-right-control">
