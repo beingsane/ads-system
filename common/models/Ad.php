@@ -45,6 +45,11 @@ class Ad extends \yii\db\ActiveRecord
                 'class' => \yii\behaviors\TimestampBehavior::className(),
                 'value' => new \yii\db\Expression('NOW()'),
             ],
+            [
+                'class' => \common\behaviors\SoftDeleteBehavior::className(),
+                'value' => new \yii\db\Expression('NOW()'),
+                'type' => 'soft',
+            ]
         ];
     }
 
