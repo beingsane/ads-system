@@ -5,6 +5,7 @@ namespace common\behaviors;
 use yii\behaviors\AttributeBehavior;
 use yii\db\Expression;
 use yii\db\Query;
+use yii\db\ActiveRecord;
 
 class SoftDeleteBehavior extends AttributeBehavior
 {
