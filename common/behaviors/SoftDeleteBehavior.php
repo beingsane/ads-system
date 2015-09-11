@@ -41,7 +41,12 @@ class SoftDeleteBehavior extends AttributeBehavior
     
     public $value;
     
-    public $restoredValue = null;
+    public $emptyValue = null;
+    
+    /**
+     * Don't update $deletedAtAttribute value if it already is not empty
+     */
+    public $checkAlreadyDeleted = true;
     
     
     /**
@@ -75,6 +80,14 @@ class SoftDeleteBehavior extends AttributeBehavior
     public function makeSoftDelete($event)
     {
         $attribute = $this->deletedAtAttribute;
+        
+        if ($this->checkAlreadyDeleted) {
+            // don't update attribute value if it already is not empty
+            if ($this->owner->$attribute != $this->emptyValue) {
+                return;
+            }
+        }
+        
         $this->owner->$attribute = $this->getValue($event);
         $this->owner->save(false, [$attribute]);
     }
@@ -115,7 +128,7 @@ class SoftDeleteBehavior extends AttributeBehavior
      */
     public function restore() {
         $attribute = $this->attribute;
-        $this->owner->$attribute = $this->restoredValue;
+        $this->owner->$attribute = $this->emptyValue;
         $this->owner->save(false, [$attribute]);
     }
     
