@@ -7,14 +7,18 @@ use yii\jui\DatePicker;
 use kartik\datecontrol\DateControl;
 use common\widgets\dynamicform\DynamicFormWidget;
 use common\models\AdNewspaperPlacementDate;
+use backend\models\NewspaperSearch;
+use common\helpers\Render;
 
 /* @var $this yii\web\View */
+/* @var $render common\helpers\Render */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $model common\models\AdNewspaper */
 /* @var $n integer */
 
 if (!isset($n)) $n = 0;
 
+$render = new Render($form, $model);
 ?>
 
 <div class="newspaper-item">
@@ -25,13 +29,7 @@ if (!isset($n)) $n = 0;
     <div class="has-right-control">
         <div class="row">
             <div class="col-md-12">
-                <?= $form->field($model, '['.$n.']newspaper_id')
-                    ->textInput([
-                        'maxlength' => true,
-                        'placeholder' => Yii::t('app', 'Select newspaper'),
-                        'title' => Yii::t('app', 'Select newspaper'),
-                    ])
-                    ->label(false) ?>
+                <?= $render->selectField('['.$n.']newspaper_id', NewspaperSearch::jobList(), ['placeholder' => Yii::t('app', 'Select newspaper...')])->label(false) ?>
             </div>
             
             

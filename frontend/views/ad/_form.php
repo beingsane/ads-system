@@ -7,6 +7,8 @@ use common\models\AdJobLocation;
 use common\models\AdNewspaper;
 use common\widgets\dynamicform\DynamicFormWidget;
 use kartik\datecontrol\DateControl;
+use common\helpers\Render;
+use backend\models\JobSearch;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Ad */
@@ -17,19 +19,13 @@ use kartik\datecontrol\DateControl;
 <div class="ad-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?php $render = new Render($form, $model); ?>
         
         <div class="row">
             <div class="col-md-12">
                 <label class="control-label"><?= Yii::t('app', 'Job') ?></label>
                 
-                <?= $form->field($model, 'job_id')
-                    ->textInput([
-                        'maxlength' => true,
-                        'placeholder' => Yii::t('app', 'Select job'),
-                        'title' => Yii::t('app', 'Select job'),
-                    ])
-                    ->label(false)
-                ?>
+                <?= $render->selectField('job_id', JobSearch::jobList(), ['placeholder' => Yii::t('app', 'Select job...')])->label(false) ?>
             </div>
         </div>
         

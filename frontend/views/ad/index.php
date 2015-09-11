@@ -28,6 +28,7 @@ $this->title = Yii::t('app', 'Ads');
             'job_id',
             'created_at',
             'updated_at',
+            'deleted_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

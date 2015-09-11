@@ -19,7 +19,7 @@ class AdSearch extends Ad
     {
         return [
             [['id', 'job_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'deleted_at'], 'safe'],
         ];
     }
 
@@ -60,6 +60,7 @@ class AdSearch extends Ad
             'job_id' => $this->job_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ]);
 
         return $dataProvider;

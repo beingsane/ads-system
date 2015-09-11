@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Newspaper;
+use yii\helpers\ArrayHelper;
 
 /**
  * NewspaperSearch represents the model behind the search form about `\common\models\Newspaper`.
@@ -63,5 +64,26 @@ class NewspaperSearch extends Newspaper
         $query->andFilterWhere(['like', 'newspaper_name', $this->newspaper_name]);
 
         return $dataProvider;
+    }
+    
+    
+    public static function jobList($active = true, $deleted = false)
+    {
+        $query = Newspaper::find();
+        
+        if (!$active && !$deleted) {
+            return [];
+        }
+        
+        if ($active && !$deleted) {
+            $query->where(['deleted_at' => null]);
+        } else if ($deleted && !$active) {
+            $query->where(['not' => ['deleted_at' => null]]);
+        }
+        
+        $jobs = $query->all();
+        $res = ArrayHelper::map($jobs, 'id', 'newspaper_name');
+        
+        return $res;
     }
 }
