@@ -22,7 +22,7 @@ use backend\models\JobSearch;
 
     <?= $render->selectField('job_id', JobSearch::jobList(), ['placeholder' => Yii::t('app', 'Select job...')]) ?>
     
-    <div class="form-group">
+    <div class="form-group no-margin">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
     </div>
 

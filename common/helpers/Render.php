@@ -64,18 +64,15 @@ class Render
     function checkboxField($attribute, $class = '')
     {
         $fieldOptions = [
-            'options' => ['class' => 'form-group icheckbox ' .$class],
+            'options' => ['class' => 'form-group ' .$class],
             'template' => "
-                <div>
-                    <label class=\"control-label\">&nbsp;</label>
-                </div>
-                <div class=\"icheckbox-label\">{label}</div>
-                {input}\n{hint}\n{error}
+                <div class=\"pull-left\">{input}</div>
+                <div class=\"pull-left\">&nbsp;&nbsp;{label}</div>\n
+                <div class=\"clearfix\"></div>
+                {hint}\n{error}
             ",
         ];
-        $inputOptions = [
-            'class' => 'icheck',
-        ];
+        $inputOptions = [];
         if ($this->viewMode || in_array($attribute, $this->disabledFields)) {
             $fieldOptions['enableClientValidation'] = false;
             $inputOptions['disabled'] = 'disabled';
