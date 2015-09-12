@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
         
         <div class="col-md-12 m-t-md">
             <?php foreach ($model->adNewspapers as $adNewspaper) { ?>
-                <b><?= $adNewspaper->newspaper->newspaper_name ?>: </b>
+                <b><?= $adNewspaper->newspaper->newspaper_name ?>:</b>
                 &nbsp;&nbsp;
                 <?= implode(';&nbsp;&nbsp;', $adNewspaper->adNewspaperPlacementDates) ?><br>
             <?php } ?>

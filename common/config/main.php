@@ -1,6 +1,9 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'sourceLanguage' => 'en-US',
+    'language' => 'en-US',
+    //'language' => 'de-DE',
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
@@ -27,7 +30,6 @@ return [
         ],
         'formatter' => [
             'dateFormat' => 'E, dd.MM.yyyy',
-            'locale' => 'de-DE',
         ],
     ],
     'as access' => [

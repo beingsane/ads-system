@@ -77,6 +77,9 @@ class Ad extends \yii\db\ActiveRecord
             'job_id' => Yii::t('app', 'Job'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            
+            'adJobLocations' => Yii::t('app', 'Job locations'),
+            'adNewspapers' => Yii::t('app', 'Newspapers'),
         ];
     }
 
@@ -299,5 +302,16 @@ class Ad extends \yii\db\ActiveRecord
     public function getStatus()
     {
         return ($this->deleted_at == null ? static::STATUS_ACTIVE : static::STATUS_DELETED);
+    }
+    
+    public function getStatusName()
+    {
+        $statusName = '';
+        switch ($this->getStatus()) {
+            case static::STATUS_ACTIVE:  $statusName = Yii::t('app', 'Active');  break;
+            case static::STATUS_DELETED: $statusName = Yii::t('app', 'Deleted'); break;
+        }
+        
+        return $statusName;
     }
 }
