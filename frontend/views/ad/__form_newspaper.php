@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use kartik\datecontrol\DateControl;
 use common\widgets\dynamicform\DynamicFormWidget;
 use common\models\AdNewspaperPlacementDate;
 use backend\models\NewspaperSearch;
@@ -60,26 +59,6 @@ $render = new Render($form, $model);
                 
                 <div class="form-group required <?= (empty($errors) ? '' : 'has-error') ?>">
                     <?php
-                        /*
-                        $dateControl = DateControl::begin([
-                            'id' => 'tmp-'.$n.'-new_ad_date',
-                            'name' => '['.$n.']new_ad_date',
-                            'type' => 'date',
-                            //'displayFormat' => 'dd.MM.yyyy',
-                            //'saveFormat' => 'yyyy-MM-dd',
-                            'language' => 'de-DE',
-                            'options' => [
-                                //'pluginOptions' => ['autoclose' => true],
-                                'removeButton' => false,
-                                'options' => [
-                                    'placeholder' => Yii::t('app', 'Placement date'),
-                                    'title' => Yii::t('app', 'Placement date'),
-                                ],
-                            ],
-                        ]);
-                        DateControl::end();
-                        */
-                        
                         echo '<div class="input-group">';
                             echo Html::tag('span', '<i class="glyphicon glyphicon-calendar"></i>', ['class' => 'input-group-addon calendar-button']);
                             echo DatePicker::widget([

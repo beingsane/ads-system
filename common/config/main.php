@@ -17,18 +17,6 @@ return [
         'rbac_admin' => [
             'class' => 'mdm\admin\Module',
         ],
-        'datecontrol' =>  [
-            'class' => '\kartik\datecontrol\Module',
-            'displaySettings' => [
-                \kartik\datecontrol\Module::FORMAT_DATE => 'd-MM-y EE, dd.MM.yyyy',
-            ],
-            'saveSettings' => [
-                \kartik\datecontrol\Module::FORMAT_DATE => 'yyyy-MM-dd',
-            ],
-            'autoWidgetSettings' => [
-                \kartik\datecontrol\Module::FORMAT_DATE => ['type'=>2, 'pluginOptions'=>['autoclose'=>true, 'language' => 'de-DE']],
-            ],
-        ],
     ],
     'components' => [
         'cache' => [

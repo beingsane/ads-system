@@ -3,7 +3,6 @@ namespace common\helpers;
 
 use Yii;
 use yii\web\JsExpression;
-use frontend\widgets\DatePicker\DatePicker;
 use kartik\select2\Select2;
 
 
@@ -36,31 +35,6 @@ class Render
         }
         
         return $this->form->field($this->model, $attribute, $fieldOptions)->textInput($inputOptions);
-    }
-    
-    public function dateField($attribute, $class = '')
-    {
-        $fieldOptions = [
-            'template' => '{label}<div class="input-group date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>{input}</div>',
-            'options' => ['class' => 'form-group ' .$class]
-        ];
-        $inputOptions = ['class' => 'form-control'];
-        
-        if ($this->viewMode || in_array($attribute, $this->disabledFields)) {
-            $fieldOptions['enableClientValidation'] = false;
-            $inputOptions['readonly'] = 'readonly';
-        }
-        
-        return $this->form
-            ->field($this->model, $attribute, $fieldOptions)
-            ->widget(DatePicker::classname(), [
-                'dateFormat' => 'yyyy-mm-dd',
-                'clientOptions' => [
-                    'format' => 'yyyy-mm-dd',
-                    'todayBtn' => true,
-                ],
-                'options' => $inputOptions,
-            ]);
     }
     
     function selectField($attribute, $data, $inputOptions = [], $minimumResultsForSearch = -1)

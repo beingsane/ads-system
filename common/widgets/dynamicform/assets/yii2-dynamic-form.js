@@ -1,5 +1,5 @@
 /**
- * WARNING! This file was modified from its original source for more correct work!
+ * WARNING! This file has been modified from its original source for more correct work!
  */
 
 /**
