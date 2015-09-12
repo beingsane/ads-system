@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use yii\jui\DatePicker;
 use kartik\datecontrol\DateControl;
 use common\widgets\dynamicform\DynamicFormWidget;
 use common\models\AdNewspaperPlacementDate;
 use backend\models\NewspaperSearch;
 use common\helpers\Render;
+use common\widgets\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $render common\helpers\Render */
@@ -60,14 +60,16 @@ $render = new Render($form, $model);
                 
                 <div class="form-group required <?= (empty($errors) ? '' : 'has-error') ?>">
                     <?php
+                        /*
                         $dateControl = DateControl::begin([
                             'id' => 'tmp-'.$n.'-new_ad_date',
                             'name' => '['.$n.']new_ad_date',
                             'type' => 'date',
-                            'displayFormat' => 'dd-MM-yyyy',
-                            'saveFormat' => 'yyyy-MM-dd',
+                            //'displayFormat' => 'dd.MM.yyyy',
+                            //'saveFormat' => 'yyyy-MM-dd',
+                            'language' => 'de-DE',
                             'options' => [
-                                'pluginOptions' => ['autoclose' => true],
+                                //'pluginOptions' => ['autoclose' => true],
                                 'removeButton' => false,
                                 'options' => [
                                     'placeholder' => Yii::t('app', 'Placement date'),
@@ -76,6 +78,24 @@ $render = new Render($form, $model);
                             ],
                         ]);
                         DateControl::end();
+                        */
+                        
+                        echo '<div class="input-group">';
+                            echo Html::tag('span', '<i class="glyphicon glyphicon-calendar"></i>', ['class' => 'input-group-addon calendar-button']);
+                            echo DatePicker::widget([
+                                'id' => 'tmp-'.$n.'-new_ad_date',
+                                'name' => '['.$n.']new_ad_date',
+                                'language' => 'de',
+                                'dateFormat' => 'E, dd-MM-yyyy',
+                                'saveDateFormat' => 'yyyy-MM-dd',
+                                'options' => [
+                                    'placeholder' => Yii::t('app', 'Placement date'),
+                                    'title' => Yii::t('app', 'Placement date'),
+                                    'class' => 'form-control',
+                                ],
+                            ]);
+                        echo '</div>';
+                        
                         
                         
                         if (!empty($errors)) {

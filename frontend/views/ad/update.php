@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Ad */
+/* @var $model frontend\models\Ad */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Ad',
@@ -11,6 +11,7 @@ $this->title = Yii::t('app', 'Update {modelClass}: ', [
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
+
 <div class="ad-update">
 
     <h1><?= Html::encode($this->title) ?></h1>

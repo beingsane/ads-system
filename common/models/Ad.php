@@ -21,6 +21,10 @@ use yii\helpers\ArrayHelper;
  */
 class Ad extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DELETED = 'deleted';
+    
+    
     /**
      * @inheritdoc
      */
@@ -46,16 +50,16 @@ class Ad extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            [
+            'TimestampBehavior' => [
                 'class' => \yii\behaviors\TimestampBehavior::className(),
                 'value' => new \yii\db\Expression('NOW()'),
             ],
-            [
+            'SoftDeleteBehavior' => [
                 'class' => \common\behaviors\SoftDeleteBehavior::className(),
                 'value' => new \yii\db\Expression('NOW()'),
-                'type' => \common\behaviors\SoftDeleteBehavior::SOFT_TYPE,
+                'type' => \common\behaviors\SoftDeleteBehavior::HARD_TYPE,
             ],
-            [
+            'BlameableBehavior' => [
                 'class' => \yii\behaviors\BlameableBehavior::className(),
                 'createdByAttribute' => 'user_id',
                 'updatedByAttribute' => false,
@@ -290,5 +294,10 @@ class Ad extends \yii\db\ActiveRecord
         }
         
         return $saved;
+    }
+    
+    public function getStatus()
+    {
+        return ($this->deleted_at == null ? static::STATUS_ACTIVE : static::STATUS_DELETED);
     }
 }

@@ -5,10 +5,10 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Ad;
+use frontend\models\Ad;
 
 /**
- * AdSearch represents the model behind the search form about `\common\models\Ad`.
+ * AdSearch represents the model behind the search form about `\frontend\models\Ad`.
  */
 class AdSearch extends Ad
 {

@@ -55,6 +55,6 @@ class AdNewspaperPlacementDate extends \yii\db\ActiveRecord
     
     public function __toString()
     {
-        return Yii::$app->formatter->asDate($this->placement_date);
+        return ($this->placement_date ? Yii::$app->formatter->asDate($this->placement_date) : '');
     }
 }

@@ -6,12 +6,12 @@ use yii\widgets\ActiveForm;
 use common\models\AdJobLocation;
 use common\models\AdNewspaper;
 use common\widgets\dynamicform\DynamicFormWidget;
-use kartik\datecontrol\DateControl;
 use common\helpers\Render;
 use backend\models\JobSearch;
+use common\widgets\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Ad */
+/* @var $model frontend\models\Ad */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
@@ -86,26 +86,20 @@ use backend\models\JobSearch;
             $models = $model->adNewspapers;
             if (empty($models)) $models = [new AdNewspaper()];
             
-            $dateControlOptions = [
+            ob_start();
+            $datePicker = DatePicker::begin([
                 'id' => 'tmp-'.$n.'-new_ad_date',
                 'name' => '['.$n.']new_ad_date',
-                'type' => 'date',
-                'displayFormat' => 'dd-MM-yyyy',
-                'saveFormat' => 'yyyy-MM-dd',
+                'language' => 'de',
+                'dateFormat' => 'E, dd-MM-yyyy',
+                'saveDateFormat' => 'yyyy-MM-dd',
                 'options' => [
-                    'pluginOptions' => ['autoclose' => true],
-                    'removeButton' => false,
-                    'options' => [
-                        'placeholder' => Yii::t('app', 'Placement date'),
-                        'title' => Yii::t('app', 'Placement date'),
-                    ],
+                    'placeholder' => Yii::t('app', 'Placement date'),
+                    'title' => Yii::t('app', 'Placement date'),
+                    'class' => 'form-control',
                 ],
-            ];
-            
-            // get DateControl object to access settings
-            ob_start();
-            $dateControl = DateControl::begin($dateControlOptions);
-            DateControl::end();
+            ]);
+            DatePicker::end();
             ob_get_clean();
         ?>
         <?php DynamicFormWidget::begin([
@@ -172,12 +166,10 @@ use backend\models\JobSearch;
         $(document).ready(function() {
             function init(mainContainer)
             {
-                var datecontrol_opt = ".json_encode($dateControl->pluginOptions).";
-                datecontrol_opt['idSave'] = jQuery('[id$=\"new_ad_date\"]', mainContainer).attr('id');
-                var kvDatepicker_opt = ".json_encode(['format' => 'dd-mm-yyyy', 'autoclose' => true]).";
-                jQuery('[id$=\"new_ad_date-disp\"]', mainContainer).datecontrol(datecontrol_opt);
-                var kvDatePicker = jQuery('[id$=\"new_ad_date-disp-kvdate\"]', mainContainer).kvDatepicker(kvDatepicker_opt);
-                
+                var datepicker = $('#{$datePicker->options['id']}').datepicker($.extend({},
+                    $.datepicker.regional['{$datePicker->language}'],
+                    ".json_encode($datePicker->clientOptions)."
+                ));
                 
                 var container = $('.placement_date-container', mainContainer);
                 
@@ -200,20 +192,19 @@ use backend\models\JobSearch;
                     item.find('.date-text').text(dispVal);
                     
                     // add 'has-success' class after adding date
-                    kvDatePicker.closest('.form-group')
+                    datepicker.closest('.form-group')
                         .removeClass('has-error')
                         .addClass('has-success')
                         .find('.help-block')
                         .html('');
                 }
                 
-                $('[id$=\"new_ad_date\"]', mainContainer).off('change');
-                $('[id$=\"new_ad_date\"]', mainContainer).on('change', function() {
-                    var datepicker = $(this).parent().find('#' + $(this).attr('id') + '-disp-kvdate');
-                    var dispVal = datepicker.find('input').val(), val = $(this).val();
+                $('[id$=\"new_ad_date-saved-value\"]', mainContainer).off('change');
+                $('[id$=\"new_ad_date-saved-value\"]', mainContainer).on('change', function() {
+                    var dispVal = $(this).prev('.hasDatepicker').val(), val = $(this).val();
                     if (val) {
                         updateDateContaiter(dispVal, val);
-                        datepicker.kvDatepicker('clearDates');
+                        $(this).prev('.hasDatepicker').val('');
                         $(this).val('');
                     }
                 });

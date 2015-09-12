@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Ad */
+/* @var $model frontend\models\Ad */
 
 $this->title = Yii::t('app', 'View').': '.$model->id;
 $this->params['breadcrumbs'][] = $this->title;

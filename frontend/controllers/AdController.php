@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Ad;
+use frontend\models\Ad;
 use common\models\AdJobLocation;
 use common\models\AdNewspaper;
 use common\models\AdNewspaperPlacementDate;

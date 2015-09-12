@@ -221,4 +221,13 @@ a.desc:after {
     margin: 0 !important;
 }
 
+.ui-datepicker {
+    margin-left: -39px;
+}
+
+.calendar-button {
+    cursor: pointer;
+}
+
 /* -------------------------------------------------------------------------------- */
+

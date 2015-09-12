@@ -5,7 +5,7 @@ use yii\helpers\Url;
 //var_dump(Url::to(['/', 'test' => ['a', 'b', 'c']]));
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Ad */
+/* @var $model frontend\models\Ad */
 
 $this->title = Yii::t('app', 'Create Ad');
 $this->params['breadcrumbs'][] = $this->title;
