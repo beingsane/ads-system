@@ -4,7 +4,7 @@ namespace common\helpers;
 use Yii;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
-
+use common\widgets\DatePicker;
 
 /**
  * @package frontend\helpers
@@ -35,6 +35,40 @@ class Render
         }
         
         return $this->form->field($this->model, $attribute, $fieldOptions)->textInput($inputOptions);
+    }
+    
+    
+    function dateField($attribute, $saveDateFormat = 'yyyy-MM-dd', $class = '')
+    {
+        $fieldOptions = [
+            'options' => ['class' => 'form-group ' .$class],
+            'template' => '
+                {label}
+                <div class="input-group">
+                    <span class="input-group-addon calendar-button"><i class="glyphicon glyphicon-calendar"></i></span>{input}
+                </div>
+                {error}
+            ',
+        ];
+        $inputOptions = ['class' => 'form-control'];
+        
+        if ($this->viewMode || in_array($attribute, $this->disabledFields)) {
+            $fieldOptions['enableClientValidation'] = false;
+            $inputOptions['readonly'] = 'readonly';
+        }
+        
+        return $this->form->field($this->model, $attribute, $fieldOptions)->widget(DatePicker::classname(),
+            [
+                'language' => Yii::$app->language,
+                'saveDateFormat' => $saveDateFormat,
+                'options' => [
+                    'placeholder' => $this->model->getAttributeLabel($attribute),
+                    'title' => $this->model->getAttributeLabel($attribute),
+                    'class' => 'form-control',
+                ],
+            ],
+            $inputOptions
+        );
     }
     
     function selectField($attribute, $data, $inputOptions = [], $minimumResultsForSearch = -1)

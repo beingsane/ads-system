@@ -43,6 +43,7 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Site', 'url' => Url::to('/')];
             $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
         } else {
+            $menuItems[] = ['label' => 'Export', 'url' => ['/export/index']];
             $menuItems[] = ['label' => 'Ads', 'url' => ['/ad/index']];
             $menuItems[] = ['label' => 'Jobs', 'url' => ['/job/index']];
             $menuItems[] = ['label' => 'Newspapers', 'url' => ['/newspaper/index']];
