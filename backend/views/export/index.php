@@ -43,8 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'ad_newspaper_id',
             'placement_date',
-
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

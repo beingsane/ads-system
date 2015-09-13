@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-//var_dump(Url::to(['/', 'test' => ['a', 'b', 'c']]));
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Ad */
@@ -10,8 +9,8 @@ use yii\helpers\Url;
 $this->title = Yii::t('app', 'Create Ad');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => Url::previous()];
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
+
 <div class="ad-create">
 
     <div class="text-center m-b-lg">

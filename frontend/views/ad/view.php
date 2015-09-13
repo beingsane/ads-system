@@ -11,6 +11,7 @@ $this->title = Yii::t('app', 'View').': '.$model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => Url::previous()];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="ad-view">
 
     <div>

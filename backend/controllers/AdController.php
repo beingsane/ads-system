@@ -8,6 +8,7 @@ use backend\models\AdSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * AdController implements the CRUD actions for Ad model.
@@ -32,6 +33,8 @@ class AdController extends Controller
      */
     public function actionIndex()
     {
+        Url::remember();
+        
         $searchModel = new AdSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -61,14 +64,20 @@ class AdController extends Controller
     public function actionCreate()
     {
         $model = new Ad();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        
+        $post = Yii::$app->request->post();
+        if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
+            
+            $saved = $model->saveWithRelations();
+            
+            if ($saved) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -81,13 +90,19 @@ class AdController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $post = Yii::$app->request->post();
+        if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
+            
+            $saved = $model->saveWithRelations();
+            
+            if ($saved) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -100,7 +115,7 @@ class AdController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous());
     }
 
     /**
