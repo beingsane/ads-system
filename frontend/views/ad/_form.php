@@ -90,8 +90,7 @@ use common\widgets\DatePicker;
             $datePicker = DatePicker::begin([
                 'id' => 'tmp-'.$n.'-new_ad_date',
                 'name' => '['.$n.']new_ad_date',
-                'language' => 'de',
-                'dateFormat' => 'E, dd-MM-yyyy',
+                'language' => Yii::$app->language,
                 'saveDateFormat' => 'yyyy-MM-dd',
                 'options' => [
                     'placeholder' => Yii::t('app', 'Placement date'),

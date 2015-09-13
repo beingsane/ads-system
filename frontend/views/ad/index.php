@@ -54,10 +54,9 @@ $this->title = Yii::t('app', 'Ads');
             'id',
             [
                 'attribute' => 'job',
-                'value' => 'job.job_name',
-                /*'content' => function ($model, $key, $index, $column) {
-                    return $model->job->job_name;
-                },*/
+                'content' => function ($model, $key, $index, $column) {
+                    return '<b>'.$model->job->job_name.'</b>';
+                },
             ],
             
             [
