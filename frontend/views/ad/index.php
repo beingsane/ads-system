@@ -12,7 +12,22 @@ $this->title = Yii::t('app', 'Ads');
 ?>
 <div class="ad-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="space"></div>
+    <div class="space"></div>
+    
+    
+    <span class="pull-left">
+        <h1 class="no-margin"><?= Html::encode($this->title) ?></h1>
+    </span>
+    <span class="pull-right">
+        <?= Html::a(Yii::t('app', 'Create Ad'), ['create'], ['class' => 'btn btn-success']) ?>
+    </span>
+    <div class="clearfix"></div>
+    
+    
+    <div class="space"></div>
+    <div class="space"></div>
+    
     
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -28,25 +43,21 @@ $this->title = Yii::t('app', 'Ads');
         </div>
     </div>
     
-
-    <div class="pull-right">
-        <?= Html::a(Yii::t('app', 'Create Ad'), ['create'], ['class' => 'btn btn-success']) ?>
-    </div>
-    <div class="clearfix"></div>
-    
     
     <div class="space"></div>
     <div class="space"></div>
-
+    
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'id',
             [
-                'attribute' => 'job_id',
-                'content' => function ($model, $key, $index, $column) {
+                'attribute' => 'job',
+                'value' => 'job.job_name',
+                /*'content' => function ($model, $key, $index, $column) {
                     return $model->job->job_name;
-                },
+                },*/
             ],
             
             [

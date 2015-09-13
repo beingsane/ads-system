@@ -41,11 +41,16 @@ class AdSearch extends Ad
     public function search($params)
     {
         $query = Ad::find();
+        $query->joinWith(['job']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort'=> ['defaultOrder' => ['id' => SORT_DESC]],
         ]);
+        $dataProvider->sort->attributes['job'] = [
+            'asc' => ['job.job_name' => SORT_ASC],
+            'desc' => ['job.job_name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -60,14 +65,14 @@ class AdSearch extends Ad
             'job_id' => $this->job_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at,
+            'ad.deleted_at' => $this->deleted_at,
         ]);
         
         // only ads of current user
         $query->andWhere(['user_id' => Yii::$app->user->id]);
-            
+        
         // only active ads
-        $query->andWhere(['deleted_at' => null]);
+        $query->andWhere(['ad.deleted_at' => null]);
 
         return $dataProvider;
     }

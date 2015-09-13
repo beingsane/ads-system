@@ -18,10 +18,15 @@ use backend\models\JobSearch;
     ]); ?>
     <?php $render = new Render($form, $model); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $render->selectField('job_id', JobSearch::jobList(), ['placeholder' => Yii::t('app', 'Select job...'), 'title' => Yii::t('app', 'Job')]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'id')->textInput(['title' => 'Ad ID']) ?>
+        </div>
+    </div>
 
-    <?= $render->selectField('job_id', JobSearch::jobList(), ['placeholder' => Yii::t('app', 'Select job...')]) ?>
-    
     <div class="form-group no-margin">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
     </div>

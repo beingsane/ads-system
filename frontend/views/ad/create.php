@@ -8,6 +8,7 @@ use yii\helpers\Url;
 /* @var $model frontend\models\Ad */
 
 $this->title = Yii::t('app', 'Create Ad');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => Url::previous()];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

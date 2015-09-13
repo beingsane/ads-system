@@ -12,6 +12,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use yii\filters\AccessControl;
+use yii\helpers\Url;
 
 /**
  * AdController implements the CRUD actions for Ad model.
@@ -21,6 +23,15 @@ class AdController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -36,6 +47,8 @@ class AdController extends Controller
      */
     public function actionIndex()
     {
+        Url::remember();
+        
         $searchModel = new AdSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -55,27 +68,6 @@ class AdController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
-    
-    public function dump($model)
-    {
-        var_dump($_POST);
-        
-        var_dump($model->attributes);
-        
-        foreach ($model->adJobLocations as $adJobLocation) {
-            var_dump($adJobLocation->attributes);
-        }
-        
-        foreach ($model->adNewspapers as $adNewspaper) {
-            var_dump($adNewspaper->attributes);
-            
-            foreach ($adNewspaper->adNewspaperPlacementDates as $date) {
-                var_dump($date->attributes);
-            }
-        }
-        
-        die;
     }
 
     /**
@@ -137,7 +129,7 @@ class AdController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous());
     }
 
     /**
