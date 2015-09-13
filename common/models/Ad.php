@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use dektrium\user\models\User;
 
 /**
  * This is the model class for table "ad".
@@ -89,6 +90,14 @@ class Ad extends \yii\db\ActiveRecord
     public function getJob()
     {
         return $this->hasOne(Job::className(), ['id' => 'job_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**

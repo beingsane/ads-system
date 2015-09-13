@@ -2,16 +2,17 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\models\Ad;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\AdSearch */
+/* @var $searchModel backend\models\AdSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Ads');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ad-index">
 
+    
     <div class="space"></div>
     <div class="space"></div>
     
@@ -52,6 +53,14 @@ $this->title = Yii::t('app', 'Ads');
         'dataProvider' => $dataProvider,
         'columns' => [
             'id',
+            
+            [
+                'attribute' => 'user',
+                'content' => function ($model, $key, $index, $column) {
+                    return '<b>'.$model->user->username.'</b>';
+                },
+            ],
+            
             [
                 'attribute' => 'job',
                 'content' => function ($model, $key, $index, $column) {
@@ -89,6 +98,20 @@ $this->title = Yii::t('app', 'Ads');
             
             'created_at',
             'updated_at',
+            
+            [
+                'attribute' => 'status',
+                'content' => function ($model, $key, $index, $column) {
+                    $html = '';
+                    $html .= $model->getStatusName();
+                    if ($model->getStatus() == $model::STATUS_DELETED) {
+                        $html .= '<div class="small-text m-t-xs">'.$model->deleted_at.'</div>';
+                    }
+                        
+                    return $html;
+                },
+            ],
+            
             
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view}<br>{update}<br>{delete}'],
         ],
