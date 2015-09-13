@@ -5,7 +5,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\LoginForm;
-use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -24,60 +24,34 @@ class SiteController extends Controller
                     [
                         'actions' => ['login', 'error'],
                         'allow' => true,
+                        'roles' => ['admin'],
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['index', 'error'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
             ],
         ];
     }
 
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('admin')) {
+            throw new NotFoundHttpException('Page not found.');
+        }
+        
         return $this->render('index');
     }
 
-    public function actionLogin()
+    public function actionError()
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (!Yii::$app->user->can('admin')) {
+            $this->layout = 'user_layout';
         }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
+        
+        $action = Yii::createObject(['class' => 'yii\web\ErrorAction'], ['error', $this]);
+        return $action->runWithParams([]);
     }
 }

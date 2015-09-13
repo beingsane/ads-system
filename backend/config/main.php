@@ -30,5 +30,11 @@ return [
             'errorAction' => 'site/error',
         ],
     ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            // '*',
+        ],
+    ],
     'params' => $params,
 ];

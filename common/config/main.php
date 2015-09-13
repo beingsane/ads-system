@@ -27,17 +27,10 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['user'],
         ],
         'formatter' => [
-            'dateFormat' => 'E, dd.MM.yyyy',
-        ],
-    ],
-    'as access' => [
-        'class' => 'mdm\admin\components\AccessControl',
-        'allowActions' => [
-            'site/*',
-            'user/*',
-            '*',
+            'dateFormat' => 'EE, dd.MM.yyyy',
         ],
     ],
 ];

@@ -36,19 +36,11 @@ AppAsset::register($this);
             ],
         ]);
         
-        $menuItems = [
-            ['label' => 'Home', 'url' => Url::home()],
-        ];
+        $menuItems = [];
+        $menuItems[] = ['label' => 'Home', 'url' => '/'];
         if (Yii::$app->user->isGuest) {
-            $menuItems[] = ['label' => 'Site', 'url' => Url::to('/')];
             $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
         } else {
-            $menuItems[] = ['label' => 'Ads', 'url' => ['/ad/index']];
-            $menuItems[] = ['label' => 'Jobs', 'url' => ['/job/index']];
-            $menuItems[] = ['label' => 'Newspapers', 'url' => ['/newspaper/index']];
-            $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => Url::to(['/user/admin'])];
-            $menuItems[] = ['label' => Yii::t('app', 'Access control'), 'url' => Url::to(['/rbac_admin/assignment'])];
-            $menuItems[] = ['label' => 'Site', 'url' => Url::to('/')];
             $menuItems[] = [
                 'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                 'url' => ['/user/logout'],
@@ -63,25 +55,6 @@ AppAsset::register($this);
     ?>
     
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        
-        <?php
-            if (Yii::$app->controller->module->id == 'rbac_admin') {
-                $links = [
-                    ['label' => Yii::t('app', 'Assignments'), 'url' => Url::to(['/rbac_admin/assignment'])],
-                    ['label' => Yii::t('app', 'Roles'), 'url' => Url::to(['/rbac_admin/role'])],
-                    ['label' => Yii::t('app', 'Routes'), 'url' => Url::to(['/rbac_admin/route'])],
-                ];
-                echo Breadcrumbs::widget([
-                    'links' => $links,
-                    'homeLink' => false,
-                ]);
-            }
-        ?>
-        
-        <?= Alert::widget() ?>
         <?= $content ?>
     </div>
 </div>
