@@ -47,8 +47,6 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Ads', 'url' => ['/ad/index']];
             $menuItems[] = ['label' => 'Jobs', 'url' => ['/job/index']];
             $menuItems[] = ['label' => 'Newspapers', 'url' => ['/newspaper/index']];
-            $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => Url::to(['/user/admin'])];
-            $menuItems[] = ['label' => Yii::t('app', 'Access control'), 'url' => Url::to(['/rbac_admin/assignment'])];
             $menuItems[] = ['label' => 'Site', 'url' => Url::to('/')];
             $menuItems[] = [
                 'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
