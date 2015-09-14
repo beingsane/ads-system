@@ -66,6 +66,25 @@ class ExportController extends Controller
 
         return $this->redirect(Url::previous());
     }
+    
+    public function actionExport()
+    {
+        $searchModel = new ExportItemSearch();
+        $modelsForExport = $searchModel->export(Yii::$app->request->queryParams);
+        
+        
+        $templateFile = '@backend/template/ads_template.xml';
+        $attachmentName = 'export-'.date('Y-m-d-H-i-s');
+        $content = $this->renderPartial($templateFile, [
+            'models' => $modelsForExport,
+        ]);
+        
+        if ($content) {
+            return Yii::$app->response->sendContentAsFile($content, $attachmentName.'.xml');
+        }
+        
+        return Yii::t('app', 'An error occurred while exporting file');
+    }
 
     /**
      * Finds the ExportItem model based on its primary key value.

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use common\helpers\Render;
 
@@ -34,7 +35,7 @@ use common\helpers\Render;
                     
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     
-                    <?= Html::submitButton(Yii::t('app', 'Export'), ['class' => 'btn btn-success btn-export']) ?>
+                    <?= Html::button(Yii::t('app', 'Export'), ['class' => 'btn btn-success btn-export']) ?>
                     
                     
                     <div class="pull-right">
@@ -49,3 +50,12 @@ use common\helpers\Render;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+    $script = "
+        $('.btn-export').click(function() {
+            $(this).closest('form').attr('action', '".Url::to(['/export/export'])."').submit();
+        });
+    ";
+    $this->registerJs($script);
+?>

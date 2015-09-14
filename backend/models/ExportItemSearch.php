@@ -75,4 +75,38 @@ class ExportItemSearch extends ExportItem
 
         return $dataProvider;
     }
+    
+    /**
+     * Export ads list
+     * @return array $models
+     */
+    public function export($params)
+    {
+        $query = ExportItem::find();
+        $query->joinWith(['adNewspaper']);
+        $query->joinWith(['adNewspaper.ad']);
+        $query->joinWith(['adNewspaper.newspaper']);
+        $query->joinWith(['adNewspaper.ad.job']);
+
+        
+        $loaded = $this->load($params);
+        if (!$loaded || !$this->validate()) {
+            return null;
+        }
+        
+        $query->andFilterWhere([
+            '>=', 'placement_date', $this->date_from
+        ]);
+        $query->andFilterWhere([
+            '<=', 'placement_date', $this->date_to
+        ]);
+        $query->andWhere([
+            'ad.deleted_at' => null
+        ]);
+        
+        $query->orderBy(['placement_date' => SORT_ASC]);
+
+        $models = $query->all();
+        return $models;
+    }
 }
