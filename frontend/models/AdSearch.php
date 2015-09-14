@@ -45,7 +45,7 @@ class AdSearch extends Ad
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['id' => SORT_DESC]],
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
         ]);
         $dataProvider->sort->attributes['job'] = [
             'asc' => ['job.job_name' => SORT_ASC],

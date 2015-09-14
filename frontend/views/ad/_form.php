@@ -165,10 +165,15 @@ use common\widgets\DatePicker;
         $(document).ready(function() {
             function init(mainContainer)
             {
-                var datepicker = $('#{$datePicker->options['id']}').datepicker($.extend({},
+                var datepicker_id = jQuery('[id$=\"new_ad_date\"]', mainContainer).attr('id');
+                var datepicker = $('#' + datepicker_id).datepicker($.extend({},
                     $.datepicker.regional['{$datePicker->language}'],
                     ".json_encode($datePicker->clientOptions)."
                 ));
+                datepicker.change(function() {
+                    var savedValue = $.datepicker.formatDate('{$datePicker->saveDateFormatJs}', $(this).datepicker('getDate'));
+                    $('#' + $(this).attr('id') + '-saved-value').val(savedValue).trigger('change');
+                });
                 
                 var container = $('.placement_date-container', mainContainer);
                 

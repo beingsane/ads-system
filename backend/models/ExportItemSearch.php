@@ -43,9 +43,12 @@ class ExportItemSearch extends ExportItem
     public function search($params)
     {
         $query = ExportItem::find();
+        $query->joinWith(['adNewspaper']);
+        $query->joinWith(['adNewspaper.ad']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['placement_date' => SORT_ASC]],
         ]);
 
         $loaded = $this->load($params);
@@ -64,7 +67,10 @@ class ExportItemSearch extends ExportItem
             '>=', 'placement_date', $this->date_from
         ]);
         $query->andFilterWhere([
-            '<=', 'placement_date', $this->date_to,
+            '<=', 'placement_date', $this->date_to
+        ]);
+        $query->andWhere([
+            'ad.deleted_at' => null
         ]);
 
         return $dataProvider;

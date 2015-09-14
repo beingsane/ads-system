@@ -38,16 +38,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="space"></div>
     <div class="space"></div>
     
+    
     <div class="row">
         <?php if ($model->getStatus() == $model::STATUS_DELETED) { ?>
-            <div class="col-md-12">
+            <div class="col-md-12 m-b-md">
                 <b class="text-uppercase">[<?= Yii::t('app', 'Deleted') ?>]</b>
                 <div class="space"></div>
                 <div class="space"></div>
             </div>
         <?php } ?>
         
-        <div class="col-md-12 m-t-md">
+        <div class="col-md-12">
             <b><?= $model->job->job_name ?></b>
             <br>
             
@@ -64,5 +65,4 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php } ?>
         </div>
     </div>
-
 </div>

@@ -26,13 +26,20 @@ use common\helpers\Render;
             <?= $render->dateField('date_to') ?>
         </div>
         
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group">
                 <label class="control-label">&nbsp;</label>
                 <div>
                     <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+                    
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <?= Html::a(Yii::t('app', 'Ads for export today'), ['/export/index'], ['class' => 'btn btn-default']) ?>
+                    
+                    <?= Html::submitButton(Yii::t('app', 'Export'), ['class' => 'btn btn-success btn-export']) ?>
+                    
+                    
+                    <div class="pull-right">
+                        <?= Html::a(Yii::t('app', 'Ads for export today'), ['/export/index'], ['class' => 'btn btn-default']) ?>
+                    </div>
                 </div>
             </div>
         </div>

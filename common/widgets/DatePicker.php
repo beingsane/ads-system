@@ -10,6 +10,8 @@ class DatePicker extends \yii\jui\DatePicker
 {
     public $saveDateFormat = 'Y-m-d';
     
+    /* Filled on rendering */
+    public $saveDateFormatJs = '';
     
     public function run()
     {
@@ -56,16 +58,18 @@ class DatePicker extends \yii\jui\DatePicker
     {
         $language = $this->language ? $this->language : Yii::$app->language;
         if (strncmp($this->saveDateFormat, 'php:', 4) === 0) {
-            $saveDateFormat = FormatConverter::convertDatePhpToJui(substr($this->saveDateFormat, 4));
+            $saveDateFormatJs = FormatConverter::convertDatePhpToJui(substr($this->saveDateFormat, 4));
         } else {
-            $saveDateFormat = FormatConverter::convertDateIcuToJui($this->saveDateFormat, 'date', $language);
+            $saveDateFormatJs = FormatConverter::convertDateIcuToJui($this->saveDateFormat, 'date', $language);
         }
+        
+        $this->saveDateFormatJs = $saveDateFormatJs;
         
         $containerID = $this->inline ? $this->containerOptions['id'] : $this->options['id'];
         $hiddenInputID = $this->options['savedValueInputID'];
         $script = "
             $('#{$containerID}').change(function() {
-                var savedValue = $.datepicker.formatDate('{$saveDateFormat}', $(this).datepicker('getDate'));
+                var savedValue = $.datepicker.formatDate('{$saveDateFormatJs}', $(this).datepicker('getDate'));
                 $('#{$hiddenInputID}').val(savedValue).trigger('change');
             });
         ";

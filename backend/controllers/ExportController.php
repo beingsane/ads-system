@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 
 /**
  * ExportController implements the CRUD actions for ExportItem model.
@@ -27,6 +28,12 @@ class ExportController extends Controller
                     ],
                 ],
             ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete-date-item' => ['post'],
+                ],
+            ],
         ];
     }
 
@@ -36,6 +43,8 @@ class ExportController extends Controller
      */
     public function actionIndex()
     {
+        Url::remember();
+        
         $searchModel = new ExportItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -43,6 +52,19 @@ class ExportController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+    
+    /**
+     * Deletes AdPlacementDate item from existing Ad model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDeleteDateItem($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(Url::previous());
     }
 
     /**
