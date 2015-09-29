@@ -37,17 +37,17 @@ AppAsset::register($this);
         ]);
         
         $menuItems = [
-            ['label' => 'Home', 'url' => Url::home()],
+            ['label' => 'Home', 'url' => Url::toRoute('/')],
         ];
         if (Yii::$app->user->isGuest) {
-            $menuItems[] = ['label' => 'Site', 'url' => Url::to('/')];
+            $menuItems[] = ['label' => 'Site', 'url' => Url::toRoute('/../')];
             $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
         } else {
             $menuItems[] = ['label' => 'Export', 'url' => ['/export/index']];
             $menuItems[] = ['label' => 'Ads', 'url' => ['/ad/index']];
             $menuItems[] = ['label' => 'Jobs', 'url' => ['/job/index']];
             $menuItems[] = ['label' => 'Newspapers', 'url' => ['/newspaper/index']];
-            $menuItems[] = ['label' => 'Site', 'url' => Url::to('/')];
+            $menuItems[] = ['label' => 'Site', 'url' => Url::toRoute('/../')];
             $menuItems[] = [
                 'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                 'url' => ['/user/logout'],

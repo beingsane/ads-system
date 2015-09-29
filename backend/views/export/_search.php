@@ -54,7 +54,13 @@ use common\helpers\Render;
 <?php
     $script = "
         $('.btn-export').click(function() {
-            $(this).closest('form').attr('action', '".Url::to(['/export/export'])."').submit();
+            var form = $(this).closest('form');
+            var attr = form.attr('action');
+            form.attr('action', '".Url::to(['/export/export'])."').submit();
+            
+            setTimeout(function() {
+                form.attr('action', attr);
+            }, 1000);
         });
     ";
     $this->registerJs($script);

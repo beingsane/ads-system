@@ -61,16 +61,16 @@ class AdSearch extends Ad
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'job_id' => $this->job_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'ad.id' => $this->id,
+            'ad.job_id' => $this->job_id,
+            'ad.created_at' => $this->created_at,
+            'ad.updated_at' => $this->updated_at,
             'ad.deleted_at' => $this->deleted_at,
         ]);
-        
+
         // only ads of current user
-        $query->andWhere(['user_id' => Yii::$app->user->id]);
-        
+        $query->andWhere(['ad.user_id' => Yii::$app->user->id]);
+
         // only active ads
         $query->andWhere(['ad.deleted_at' => null]);
 

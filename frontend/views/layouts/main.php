@@ -36,14 +36,14 @@ AppAsset::register($this);
                     ],
                 ]);
                 $menuItems = [
-                    ['label' => 'Home', 'url' => [Url::home()]],
+                    ['label' => 'Home', 'url' => Url::toRoute('/')],
                 ];
                 if (Yii::$app->user->isGuest) {
                     // $menuItems[] = ['label' => 'Registration', 'url' => ['/user/register']];
                     $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
                 } else {
                     if (Yii::$app->user->can('admin')) {
-                        $menuItems[] = ['label' => 'Admin', 'url' => Url::to('/admin')];
+                        $menuItems[] = ['label' => 'Admin', 'url' => Url::toRoute('/admin')];
                     }
                     
                     $menuItems[] = [

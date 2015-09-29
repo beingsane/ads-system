@@ -70,14 +70,14 @@ class AdSearch extends Ad
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'job_id' => $this->job_id,
-            'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'ad.id' => $this->id,
+            'ad.job_id' => $this->job_id,
+            'ad.user_id' => $this->user_id,
+            'ad.created_at' => $this->created_at,
+            'ad.updated_at' => $this->updated_at,
             'ad.deleted_at' => $this->deleted_at,
         ]);
-        
+
         return $dataProvider;
     }
 }
