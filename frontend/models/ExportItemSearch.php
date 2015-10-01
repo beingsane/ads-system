@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
@@ -75,7 +75,7 @@ class ExportItemSearch extends ExportItem
 
         return $dataProvider;
     }
-    
+
     /**
      * Export ads list
      * @return array $models
@@ -88,12 +88,12 @@ class ExportItemSearch extends ExportItem
         $query->joinWith(['adNewspaper.newspaper']);
         $query->joinWith(['adNewspaper.ad.job']);
 
-        
+
         $loaded = $this->load($params);
         if (!$loaded || !$this->validate()) {
             return null;
         }
-        
+
         $query->andFilterWhere([
             '>=', 'placement_date', $this->date_from
         ]);
@@ -103,7 +103,7 @@ class ExportItemSearch extends ExportItem
         $query->andWhere([
             'ad.deleted_at' => null
         ]);
-        
+
         $query->orderBy(['placement_date' => SORT_ASC]);
 
         $models = $query->all();

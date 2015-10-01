@@ -5,7 +5,7 @@ use yii\grid\GridView;
 use common\models\Ad;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\AdSearch */
+/* @var $searchModel frontend\models\AdSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Ads');

@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 use common\helpers\Render;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\ExportItemSearch */
+/* @var $model frontend\models\ExportItemSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -22,22 +22,22 @@ use common\helpers\Render;
         <div class="col-md-3">
             <?= $render->dateField('date_from') ?>
         </div>
-        
+
         <div class="col-md-3">
             <?= $render->dateField('date_to') ?>
         </div>
-        
+
         <div class="col-md-6">
             <div class="form-group">
                 <label class="control-label">&nbsp;</label>
                 <div>
                     <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-                    
+
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    
+
                     <?= Html::button(Yii::t('app', 'Export'), ['class' => 'btn btn-success btn-export']) ?>
-                    
-                    
+
+
                     <div class="pull-right">
                         <?= Html::a(Yii::t('app', 'Ads for export today'), ['/export/index'], ['class' => 'btn btn-default']) ?>
                     </div>
@@ -57,7 +57,7 @@ use common\helpers\Render;
             var form = $(this).closest('form');
             var attr = form.attr('action');
             form.attr('action', '".Url::toRoute(['/export/export'])."').submit();
-            
+
             setTimeout(function() {
                 form.attr('action', attr);
             }, 1000);

@@ -1,11 +1,12 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use Yii;
 use common\models\ExportItem;
-use backend\models\ExportItemSearch;
+use frontend\models\ExportItemSearch;
 use yii\web\NotFoundHttpException;
+use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
@@ -14,17 +15,17 @@ use yii\helpers\ArrayHelper;
 /**
  * ExportController implements the CRUD actions for ExportItem model.
  */
-class ExportController extends BaseCrudController
+class ExportController extends Controller
 {
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(), [
+        return [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['admin', 'manager'],
                     ],
                 ],
             ],
@@ -34,7 +35,7 @@ class ExportController extends BaseCrudController
                     'delete-date-item' => ['post'],
                 ],
             ],
-        ]);
+        ];
     }
 
     /**

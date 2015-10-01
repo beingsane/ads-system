@@ -4,14 +4,10 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Ad;
-use common\models\AdJobLocation;
-use common\models\AdNewspaper;
-use common\models\AdNewspaperPlacementDate;
 use frontend\models\AdSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\widgets\ActiveForm;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 
@@ -28,7 +24,7 @@ class AdController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin', 'manager'],
                     ],
                 ],
             ],
