@@ -5,26 +5,26 @@ namespace backend\controllers;
 use Yii;
 use common\models\Ad;
 use backend\models\AdSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 
 /**
  * AdController implements the CRUD actions for Ad model.
  */
-class AdController extends Controller
+class AdController extends BaseCrudController
 {
     public function behaviors()
     {
-        return [
+        return ArrayHelper::merge(parent::behaviors(), [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
-        ];
+        ]);
     }
 
     /**
@@ -34,7 +34,7 @@ class AdController extends Controller
     public function actionIndex()
     {
         Url::remember();
-        
+
         $searchModel = new AdSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -64,12 +64,12 @@ class AdController extends Controller
     public function actionCreate()
     {
         $model = new Ad();
-        
+
         $post = Yii::$app->request->post();
         if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
-            
+
             $saved = $model->saveWithRelations();
-            
+
             if ($saved) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -92,14 +92,14 @@ class AdController extends Controller
 
         $post = Yii::$app->request->post();
         if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
-            
+
             $saved = $model->saveWithRelations();
-            
+
             if ($saved) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-        
+
         return $this->render('update', [
             'model' => $model,
         ]);

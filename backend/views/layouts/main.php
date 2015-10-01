@@ -35,7 +35,7 @@ AppAsset::register($this);
                 'class' => 'navbar-inverse navbar-fixed-top',
             ],
         ]);
-        
+
         $menuItems = [
             ['label' => 'Home', 'url' => Url::toRoute('/')],
         ];
@@ -47,7 +47,9 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Ads', 'url' => ['/ad/index']];
             $menuItems[] = ['label' => 'Jobs', 'url' => ['/job/index']];
             $menuItems[] = ['label' => 'Newspapers', 'url' => ['/newspaper/index']];
+            $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => Url::to(['/user/admin'])];
             $menuItems[] = ['label' => 'Site', 'url' => Url::toRoute('/../')];
+
             $menuItems[] = [
                 'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                 'url' => ['/user/logout'],
@@ -60,27 +62,12 @@ AppAsset::register($this);
         ]);
         NavBar::end();
     ?>
-    
+
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        
-        <?php
-            if (Yii::$app->controller->module->id == 'rbac_admin') {
-                $links = [
-                    ['label' => Yii::t('app', 'Assignments'), 'url' => Url::to(['/rbac_admin/assignment'])],
-                    ['label' => Yii::t('app', 'Roles'), 'url' => Url::to(['/rbac_admin/role'])],
-                    ['label' => Yii::t('app', 'Routes'), 'url' => Url::to(['/rbac_admin/route'])],
-                ];
-                echo Breadcrumbs::widget([
-                    'links' => $links,
-                    'homeLink' => false,
-                ]);
-            }
-        ?>
-        
-        <?= Alert::widget() ?>
+
         <?= $content ?>
     </div>
 </div>

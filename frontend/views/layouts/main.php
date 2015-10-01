@@ -45,7 +45,7 @@ AppAsset::register($this);
                     if (Yii::$app->user->can('admin')) {
                         $menuItems[] = ['label' => 'Admin', 'url' => Url::toRoute('/admin')];
                     }
-                    
+
                     $menuItems[] = [
                         'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                         'url' => ['/user/logout'],
@@ -63,7 +63,6 @@ AppAsset::register($this);
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]) ?>
-                <?= Alert::widget() ?>
                 <?= $content ?>
             </div>
         </div>

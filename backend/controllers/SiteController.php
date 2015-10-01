@@ -22,11 +22,6 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
-                    [
                         'actions' => ['index', 'error'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -41,7 +36,7 @@ class SiteController extends Controller
         if (!Yii::$app->user->can('admin')) {
             throw new NotFoundHttpException('Page not found.');
         }
-        
+
         return $this->render('index');
     }
 
@@ -50,7 +45,7 @@ class SiteController extends Controller
         if (!Yii::$app->user->can('admin')) {
             $this->layout = 'user_layout';
         }
-        
+
         $action = Yii::createObject(['class' => 'yii\web\ErrorAction'], ['error', $this]);
         return $action->runWithParams([]);
     }

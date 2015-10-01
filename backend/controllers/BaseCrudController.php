@@ -16,8 +16,17 @@ class BaseCrudController extends Controller
 {
 	protected $modelClass = '';
 	protected $searchModelClass = '';
-	
-	
+
+
+    public function beforeAction($action)
+    {
+        if (!Yii::$app->user->can('admin')) {
+            throw new NotFoundHttpException('Page not found.');
+        }
+
+        return true;
+    }
+
     public function behaviors()
     {
         return [
@@ -46,7 +55,7 @@ class BaseCrudController extends Controller
     public function actionIndex()
     {
         Url::remember(Url::to([$this->id.'/']));
-		
+
         $searchModel = new $this->searchModelClass();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "76f55870ae89624a247b3f1b68f49e63",
+    "hash": "66231cb3ef6e53cf4b8da1dfbde8bde7",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -298,6 +298,56 @@
             "time": "2015-03-06 05:28:07"
         },
         {
+            "name": "dektrium/yii2-rbac",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dektrium/yii2-rbac.git",
+                "reference": "4387c72b89d952e13a1856dc7f995898ad7d96a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dektrium/yii2-rbac/zipball/4387c72b89d952e13a1856dc7f995898ad7d96a7",
+                "reference": "4387c72b89d952e13a1856dc7f995898ad7d96a7",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-widget-select2": "*",
+                "yiisoft/yii2": "2.0.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "dektrium\\rbac\\Bootstrap"
+            },
+            "autoload": {
+                "psr-4": {
+                    "dektrium\\rbac\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Erofeev",
+                    "email": "dmeroff@gmail.com",
+                    "homepage": "http://dmeroff.ru"
+                }
+            ],
+            "description": "RBAC management module for Yii2",
+            "keywords": [
+                "dektrium",
+                "rbac gui",
+                "rbac management",
+                "rbac module",
+                "yii rbac",
+                "yii2",
+                "yii2-rbac"
+            ],
+            "time": "2015-06-14 09:54:53"
+        },
+        {
             "name": "dektrium/yii2-user",
             "version": "v0.9.4",
             "source": {
@@ -510,7 +560,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/8899c9062e9111583bdbfe070f60e4075fd45a44",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/fa0175d936012eac3f7a382792cbb13948015c4e",
                 "reference": "8899c9062e9111583bdbfe070f60e4075fd45a44",
                 "shasum": ""
             },
@@ -547,57 +597,6 @@
                 "yii2"
             ],
             "time": "2015-08-30 13:38:14"
-        },
-        {
-            "name": "mdmsoft/yii2-admin",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mdmsoft/yii2-admin.git",
-                "reference": "835875b0cc0bef1f12998c4c713494947b45cfcb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mdmsoft/yii2-admin/zipball/835875b0cc0bef1f12998c4c713494947b45cfcb",
-                "reference": "835875b0cc0bef1f12998c4c713494947b45cfcb",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "~2.0.4"
-            },
-            "suggest": {
-                "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.0.master": "1.0.x-dev",
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "mdm\\admin\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Misbahul Munir",
-                    "email": "misbahuldmunir@gmail.com"
-                }
-            ],
-            "description": "RBAC Auth manager for Yii2 ",
-            "keywords": [
-                "admin",
-                "auth",
-                "rbac",
-                "yii"
-            ],
-            "time": "2015-08-05 03:43:41"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -657,12 +656,12 @@
             "version": "v2.7.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/CssSelector.git",
+                "url": "https://github.com/symfony/css-selector.git",
                 "reference": "ffb5f3b8a75f8d1b9801e74dc6789a0751a670ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/ffb5f3b8a75f8d1b9801e74dc6789a0751a670ad",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/ffb5f3b8a75f8d1b9801e74dc6789a0751a670ad",
                 "reference": "ffb5f3b8a75f8d1b9801e74dc6789a0751a670ad",
                 "shasum": ""
             },
@@ -710,12 +709,12 @@
             "version": "v2.7.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/DomCrawler.git",
+                "url": "https://github.com/symfony/dom-crawler.git",
                 "reference": "2a161e4ee2b2f33d4153be58df4f6f2a5506936e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/2a161e4ee2b2f33d4153be58df4f6f2a5506936e",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/2a161e4ee2b2f33d4153be58df4f6f2a5506936e",
                 "reference": "2a161e4ee2b2f33d4153be58df4f6f2a5506936e",
                 "shasum": ""
             },
@@ -2364,8 +2363,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kartik-v/yii2-widget-select2": 20,
-        "mdmsoft/yii2-admin": 20
+        "kartik-v/yii2-widget-select2": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

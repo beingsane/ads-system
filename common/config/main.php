@@ -10,15 +10,15 @@ return [
             'enableUnconfirmedLogin' => false,
 			'enableRegistration' => false,
 			'enableConfirmation' => false,
-            'enableFlashMessages' => false,   // for advanced template, it already shows flash messages
+            'enableFlashMessages' => true,
             'confirmWithin' => 6 * 3600,
             'admins' => ['admin'],
-            
+
             // http://site.local/user/admin
             // all users from 'admins' section have access here
         ],
-        'rbac_admin' => [
-            'class' => 'mdm\admin\Module',
+        'rbac' => [
+            'class' => 'dektrium\rbac\Module',
         ],
     ],
     'components' => [
@@ -27,7 +27,7 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['user'],
+            'defaultRoles' => ['manager'],
         ],
         'formatter' => [
             'dateFormat' => 'EE, dd.MM.yyyy',

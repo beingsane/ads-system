@@ -5,20 +5,20 @@ namespace backend\controllers;
 use Yii;
 use common\models\ExportItem;
 use backend\models\ExportItemSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 
 /**
  * ExportController implements the CRUD actions for ExportItem model.
  */
-class ExportController extends Controller
+class ExportController extends BaseCrudController
 {
     public function behaviors()
     {
-        return [
+        return ArrayHelper::merge(parent::behaviors(), [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
@@ -34,7 +34,7 @@ class ExportController extends Controller
                     'delete-date-item' => ['post'],
                 ],
             ],
-        ];
+        ]);
     }
 
     /**
@@ -44,7 +44,7 @@ class ExportController extends Controller
     public function actionIndex()
     {
         Url::remember();
-        
+
         $searchModel = new ExportItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -53,7 +53,7 @@ class ExportController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    
+
     /**
      * Deletes AdPlacementDate item from existing Ad model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -66,23 +66,23 @@ class ExportController extends Controller
 
         return $this->redirect(Url::previous());
     }
-    
+
     public function actionExport()
     {
         $searchModel = new ExportItemSearch();
         $modelsForExport = $searchModel->export(Yii::$app->request->queryParams);
-        
-        
+
+
         $templateFile = '@backend/template/ads_template.xml';
         $attachmentName = 'export-'.date('Y-m-d-H-i-s');
         $content = $this->renderPartial($templateFile, [
             'models' => $modelsForExport,
         ]);
-        
+
         if ($content) {
             return Yii::$app->response->sendContentAsFile($content, $attachmentName.'.xml');
         }
-        
+
         return Yii::t('app', 'An error occurred while exporting file');
     }
 
