@@ -47,7 +47,7 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Ads', 'url' => ['/ad/index']];
             $menuItems[] = ['label' => 'Jobs', 'url' => ['/job/index']];
             $menuItems[] = ['label' => 'Newspapers', 'url' => ['/newspaper/index']];
-            $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => Url::to(['/user/admin'])];
+            $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => Url::toRoute(['/user/admin'])];
             $menuItems[] = ['label' => 'Site', 'url' => Url::toRoute('/../')];
 
             $menuItems[] = [

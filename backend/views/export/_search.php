@@ -56,7 +56,7 @@ use common\helpers\Render;
         $('.btn-export').click(function() {
             var form = $(this).closest('form');
             var attr = form.attr('action');
-            form.attr('action', '".Url::to(['/export/export'])."').submit();
+            form.attr('action', '".Url::toRoute(['/export/export'])."').submit();
             
             setTimeout(function() {
                 form.attr('action', attr);
