@@ -37,7 +37,7 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Page not found.');
         }
 
-        return $this->render('index');
+        return $this->redirect(['/user/admin']);
     }
 
     public function actionError()

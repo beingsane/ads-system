@@ -37,14 +37,12 @@ AppAsset::register($this);
         ]);
 
         $menuItems = [
-            ['label' => Yii::t('app', 'Home'), 'url' => Url::toRoute('/')],
+            // ['label' => Yii::t('app', 'Home'), 'url' => Url::toRoute('/')],
         ];
         if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => Yii::t('app', 'Site'), 'url' => Url::toRoute('/../')];
             $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/user/login']];
         } else {
-            $menuItems[] = ['label' => Yii::t('app', 'Export'), 'url' => ['/export/index']];
-            $menuItems[] = ['label' => Yii::t('app', 'Ads'), 'url' => ['/ad/index']];
             $menuItems[] = ['label' => Yii::t('app', 'Jobs'), 'url' => ['/job/index']];
             $menuItems[] = ['label' => Yii::t('app', 'Newspapers'), 'url' => ['/newspaper/index']];
             $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => Url::toRoute(['/user/admin'])];
