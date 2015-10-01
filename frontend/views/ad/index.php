@@ -31,12 +31,12 @@ $this->title = Yii::t('app', 'Ads');
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a data-toggle="collapse" href="#work-orders-filter">
+            <a data-toggle="collapse" href="#filter">
                 <?= Yii::t('app', 'Filter') ?>
             </a>
             <?= Html::a('<span class="text-muted">Reset filter</span>', ['ad/index'], ['class' => 'pull-right']) ?>
         </div>
-        <div id="work-orders-filter" class="panel-collapse collapse out">
+        <div id="filter" class="panel-collapse collapse out">
             <div class="panel-body">
                 <?php echo $this->render('_search', ['model' => $searchModel]); ?>
             </div>
