@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\models\Ad;
+use common\models\Ad;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\AdSearch */
+/* @var $searchModel common\models\AdSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Ads');

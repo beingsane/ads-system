@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Ad */
+/* @var $model common\models\Ad */
 
 $this->title = Yii::t('app', 'View').': '.$model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => Url::previous()];

@@ -6,7 +6,7 @@ use common\helpers\Render;
 use backend\models\JobSearch;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\AdSearch */
+/* @var $model common\models\AdSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

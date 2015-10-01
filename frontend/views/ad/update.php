@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Ad */
+/* @var $model common\models\Ad */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Ad',

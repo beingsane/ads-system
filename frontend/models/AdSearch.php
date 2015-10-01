@@ -5,10 +5,10 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Ad;
+use common\models\Ad;
 
 /**
- * AdSearch represents the model behind the search form about `\frontend\models\Ad`.
+ * AdSearch represents the model behind the search form about `\common\models\Ad`.
  */
 class AdSearch extends Ad
 {
@@ -69,10 +69,10 @@ class AdSearch extends Ad
         ]);
 
         // only ads of current user
-        $query->andWhere(['ad.user_id' => Yii::$app->user->id]);
+        //$query->andWhere(['ad.user_id' => Yii::$app->user->id]);
 
         // only active ads
-        $query->andWhere(['ad.deleted_at' => null]);
+        //$query->andWhere(['ad.deleted_at' => null]);
 
         return $dataProvider;
     }

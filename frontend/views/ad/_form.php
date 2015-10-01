@@ -11,7 +11,7 @@ use backend\models\JobSearch;
 use common\widgets\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Ad */
+/* @var $model common\models\Ad */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>

@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Ad;
+use common\models\Ad;
 use common\models\AdJobLocation;
 use common\models\AdNewspaper;
 use common\models\AdNewspaperPlacementDate;
@@ -48,7 +48,7 @@ class AdController extends Controller
     public function actionIndex()
     {
         Url::remember();
-        
+
         $searchModel = new AdSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -78,12 +78,12 @@ class AdController extends Controller
     public function actionCreate()
     {
         $model = new Ad();
-        
+
         $post = Yii::$app->request->post();
         if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
-            
+
             $saved = $model->saveWithRelations();
-            
+
             if ($saved) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -106,14 +106,14 @@ class AdController extends Controller
 
         $post = Yii::$app->request->post();
         if ($model->loadWithRelations($post) && $model->validateWithRelations()) {
-            
+
             $saved = $model->saveWithRelations();
-            
+
             if ($saved) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-        
+
         return $this->render('update', [
             'model' => $model,
         ]);
