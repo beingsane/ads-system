@@ -29,25 +29,25 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
                 NavBar::begin([
-                    'brandLabel' => 'Ads system',
+                    'brandLabel' => Yii::t('app', 'Ads system'),
                     'brandUrl' => Yii::$app->homeUrl,
                     'options' => [
                         'class' => 'navbar-inverse navbar-fixed-top',
                     ],
                 ]);
                 $menuItems = [
-                    ['label' => 'Home', 'url' => Url::toRoute('/')],
+                    ['label' => Yii::t('app', 'Home'), 'url' => Url::toRoute('/')],
                 ];
                 if (Yii::$app->user->isGuest) {
-                    // $menuItems[] = ['label' => 'Registration', 'url' => ['/user/register']];
-                    $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
+                    // $menuItems[] = ['label' => Yii::t('app', 'Registration'), 'url' => ['/user/register']];
+                    $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/user/login']];
                 } else {
                     if (Yii::$app->user->can('admin')) {
-                        $menuItems[] = ['label' => 'Admin', 'url' => Url::toRoute('/admin')];
+                        $menuItems[] = ['label' => Yii::t('app', 'Admin'), 'url' => Url::toRoute('/admin')];
                     }
 
                     $menuItems[] = [
-                        'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                        'label' => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                         'url' => ['/user/logout'],
                         'linkOptions' => ['data-method' => 'post']
                     ];

@@ -14,8 +14,8 @@ $this->title = Yii::t('app', 'Ads');
 
     <div class="space"></div>
     <div class="space"></div>
-    
-    
+
+
     <span class="pull-left">
         <h1 class="no-margin"><?= Html::encode($this->title) ?></h1>
     </span>
@@ -23,16 +23,16 @@ $this->title = Yii::t('app', 'Ads');
         <?= Html::a(Yii::t('app', 'Create Ad'), ['create'], ['class' => 'btn btn-success']) ?>
     </span>
     <div class="clearfix"></div>
-    
-    
+
+
     <div class="space"></div>
     <div class="space"></div>
-    
-    
+
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <a data-toggle="collapse" href="#work-orders-filter">
-                Filter
+                <?= Yii::t('app', 'Filter') ?>
             </a>
             <?= Html::a('<span class="text-muted">Reset filter</span>', ['ad/index'], ['class' => 'pull-right']) ?>
         </div>
@@ -42,12 +42,12 @@ $this->title = Yii::t('app', 'Ads');
             </div>
         </div>
     </div>
-    
-    
+
+
     <div class="space"></div>
     <div class="space"></div>
-    
-    
+
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -58,7 +58,7 @@ $this->title = Yii::t('app', 'Ads');
                     return '<b>'.$model->job->job_name.'</b>';
                 },
             ],
-            
+
             [
                 'attribute' => 'adJobLocations',
                 'content' => function ($model, $key, $index, $column) {
@@ -66,11 +66,11 @@ $this->title = Yii::t('app', 'Ads');
                     foreach ($model->adJobLocations as $adJobLocation) {
                         $content[] = $adJobLocation->job_location .'. ' .$adJobLocation->additional_info;
                     }
-                    
+
                     return implode('<br>', $content);
                 },
             ],
-            
+
             [
                 'attribute' => 'adNewspapers',
                 'content' => function ($model, $key, $index, $column) {
@@ -79,17 +79,17 @@ $this->title = Yii::t('app', 'Ads');
                         $info = [];
                         $info[] = '<b>'.$adNewspaper->newspaper->newspaper_name.':</b>';
                         $info[] = implode(';&nbsp;&nbsp;', $adNewspaper->adNewspaperPlacementDates);
-                        
+
                         $content[] = implode('&nbsp;&nbsp;', $info);
                     }
-                    
+
                     return implode('<br>', $content);
                 },
             ],
-            
+
             'created_at',
             'updated_at',
-            
+
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view}<br>{update}<br>{delete}'],
         ],
     ]); ?>

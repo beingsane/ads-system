@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
         NavBar::begin([
-            'brandLabel' => 'Ads system - Admin panel',
+            'brandLabel' => Yii::t('app', 'Ads system - Admin panel'),
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar-inverse navbar-fixed-top',
@@ -37,21 +37,21 @@ AppAsset::register($this);
         ]);
 
         $menuItems = [
-            ['label' => 'Home', 'url' => Url::toRoute('/')],
+            ['label' => Yii::t('app', 'Home'), 'url' => Url::toRoute('/')],
         ];
         if (Yii::$app->user->isGuest) {
-            $menuItems[] = ['label' => 'Site', 'url' => Url::toRoute('/../')];
-            $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
+            $menuItems[] = ['label' => Yii::t('app', 'Site'), 'url' => Url::toRoute('/../')];
+            $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/user/login']];
         } else {
-            $menuItems[] = ['label' => 'Export', 'url' => ['/export/index']];
-            $menuItems[] = ['label' => 'Ads', 'url' => ['/ad/index']];
-            $menuItems[] = ['label' => 'Jobs', 'url' => ['/job/index']];
-            $menuItems[] = ['label' => 'Newspapers', 'url' => ['/newspaper/index']];
+            $menuItems[] = ['label' => Yii::t('app', 'Export'), 'url' => ['/export/index']];
+            $menuItems[] = ['label' => Yii::t('app', 'Ads'), 'url' => ['/ad/index']];
+            $menuItems[] = ['label' => Yii::t('app', 'Jobs'), 'url' => ['/job/index']];
+            $menuItems[] = ['label' => Yii::t('app', 'Newspapers'), 'url' => ['/newspaper/index']];
             $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => Url::toRoute(['/user/admin'])];
-            $menuItems[] = ['label' => 'Site', 'url' => Url::toRoute('/../')];
+            $menuItems[] = ['label' => Yii::t('app', 'Site'), 'url' => Url::toRoute('/../')];
 
             $menuItems[] = [
-                'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                'label' => Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                 'url' => ['/user/logout'],
                 'linkOptions' => ['data-method' => 'post']
             ];

@@ -12,11 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ad-index">
 
-    
+
     <div class="space"></div>
     <div class="space"></div>
-    
-    
+
+
     <span class="pull-left">
         <h1 class="no-margin"><?= Html::encode($this->title) ?></h1>
     </span>
@@ -24,16 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Ad'), ['create'], ['class' => 'btn btn-success']) ?>
     </span>
     <div class="clearfix"></div>
-    
-    
+
+
     <div class="space"></div>
     <div class="space"></div>
-    
-    
+
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <a data-toggle="collapse" href="#work-orders-filter">
-                Filter
+                <?= Yii::t('app', 'Filter') ?>
             </a>
             <?= Html::a('<span class="text-muted">Reset filter</span>', ['ad/index'], ['class' => 'pull-right']) ?>
         </div>
@@ -43,31 +43,31 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-    
-    
+
+
     <div class="space"></div>
     <div class="space"></div>
-    
-    
+
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'id',
-            
+
             [
                 'attribute' => 'user',
                 'content' => function ($model, $key, $index, $column) {
                     return '<b>'.$model->user->username.'</b>';
                 },
             ],
-            
+
             [
                 'attribute' => 'job',
                 'content' => function ($model, $key, $index, $column) {
                     return '<b>'.$model->job->job_name.'</b>';
                 },
             ],
-            
+
             [
                 'attribute' => 'adJobLocations',
                 'content' => function ($model, $key, $index, $column) {
@@ -75,11 +75,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     foreach ($model->adJobLocations as $adJobLocation) {
                         $content[] = $adJobLocation->job_location .'. ' .$adJobLocation->additional_info;
                     }
-                    
+
                     return implode('<br>', $content);
                 },
             ],
-            
+
             [
                 'attribute' => 'adNewspapers',
                 'content' => function ($model, $key, $index, $column) {
@@ -88,17 +88,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         $info = [];
                         $info[] = '<b>'.$adNewspaper->newspaper->newspaper_name.':</b>';
                         $info[] = implode(';&nbsp;&nbsp;', $adNewspaper->adNewspaperPlacementDates);
-                        
+
                         $content[] = implode('&nbsp;&nbsp;', $info);
                     }
-                    
+
                     return implode('<br>', $content);
                 },
             ],
-            
+
             'created_at',
             'updated_at',
-            
+
             [
                 'attribute' => 'status',
                 'content' => function ($model, $key, $index, $column) {
@@ -107,12 +107,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     if ($model->getStatus() == $model::STATUS_DELETED) {
                         $html .= '<div class="small-text m-t-xs">'.$model->deleted_at.'</div>';
                     }
-                        
+
                     return $html;
                 },
             ],
-            
-            
+
+
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view}<br>{update}<br>{delete}'],
         ],
     ]); ?>
