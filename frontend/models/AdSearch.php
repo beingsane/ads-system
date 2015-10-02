@@ -7,7 +7,6 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Ad;
 use yii\helpers\ArrayHelper;
-use yii\db\Expression;
 
 /**
  * AdSearch represents the model behind the search form about `\common\models\Ad`.
@@ -72,20 +71,6 @@ class AdSearch extends Ad
             'desc' => ['job.job_name' => SORT_DESC],
         ];
 
-
-        $sortQuery = "(
-            SELECT newspaper_name
-            FROM ad_newspaper
-                INNER JOIN newspaper ON ad_newspaper.newspaper_id = newspaper.id
-            WHERE ad_newspaper.ad_id = ad.id
-            ORDER BY ad_newspaper.id
-        )";
-
-        $dataProvider->sort->attributes['newspaper_id'] = [
-            'asc' => [$sortQuery => SORT_ASC],
-            'desc' => [$sortQuery => SORT_DESC],
-        ];
-
         $this->load($params);
 
         if (!$this->validate()) {
@@ -99,13 +84,34 @@ class AdSearch extends Ad
             'ad.job_id' => $this->job_id,
         ]);
 
+
+
+        $subQuery = \common\models\AdNewspaper::find();
+        $subQuery->joinWith(['adNewspaperPlacementDates']);
+        $subQuery->where(['=', 'ad_id', new \yii\db\Expression('ad.id')]);
+        $subQuery->andFilterWhere(['>=', 'placement_date', $this->date_from]);
+        $subQuery->andFilterWhere(['<=', 'placement_date', $this->date_to]);
+        $subQuery->andFilterWhere(['=', 'newspaper_id', $this->newspaper_id]);
+        $subQuery->limit(1);
+
+        $query->andFilterWhere(['exists', $subQuery]);
+
+
+        $subQueryText = \common\models\AdJobLocation::find();
+        $subQueryText->where(['=', 'ad_id', new \yii\db\Expression('ad.id')]);
+        $subQueryText->andFilterWhere(['or', ['like', 'job_location', $this->text], ['like', 'additional_info', $this->text]]);
+
+        $query->andFilterWhere(['exists', $subQueryText]);
+
+
+        //echo $query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql; die;
+
         // only ads of current user
         //$query->andWhere(['ad.user_id' => Yii::$app->user->id]);
-        //$query->andWhere(['ad.user_id1' => Yii::$app->user->id]);
 
         // only active ads
         //$query->andWhere(['ad.deleted_at' => null]);
-//var_dump($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql); die;
+
         return $dataProvider;
     }
 }
