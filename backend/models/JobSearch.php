@@ -63,6 +63,7 @@ class JobSearch extends Job
 
         $query->andFilterWhere(['like', 'job_name', $this->job_name]);
         $query->orderBy(['deleted_at' => SORT_ASC]);
+        $query->addOrderBy(['job_name' => SORT_ASC]);
 
         return $dataProvider;
     }
@@ -80,9 +81,11 @@ class JobSearch extends Job
         } else if ($deleted && !$active) {
             $query->where(['not' => ['deleted_at' => null]]);
         }
+        $query->orderBy(['job_name' => SORT_ASC]);
 
         $jobs = $query->all();
         $res = ArrayHelper::map($jobs, 'id', 'job_name');
+
 
         return $res;
     }

@@ -62,6 +62,7 @@ class NewspaperSearch extends Newspaper
 
         $query->andFilterWhere(['like', 'newspaper_name', $this->newspaper_name]);
         $query->orderBy(['deleted_at' => SORT_ASC]);
+        $query->addOrderBy(['newspaper_name' => SORT_ASC]);
 
         return $dataProvider;
     }
@@ -80,6 +81,7 @@ class NewspaperSearch extends Newspaper
         } else if ($deleted && !$active) {
             $query->where(['not' => ['deleted_at' => null]]);
         }
+        $query->orderBy(['newspaper_name' => SORT_ASC]);
 
         $jobs = $query->all();
         $res = ArrayHelper::map($jobs, 'id', 'newspaper_name');
