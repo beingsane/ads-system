@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Newspaper */
 
 $this->title = Yii::t('app', 'Create Newspaper');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Newspapers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Newspapers'), 'url' => \common\helpers\UrlHelper::previous()];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="newspaper-create">

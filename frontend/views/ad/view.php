@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Ad */
 
 $this->title = Yii::t('app', 'View').': '.$model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => Url::previous()];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => \common\helpers\UrlHelper::previous()];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="pull-right">
             <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            
+
             <?php if ($model->getStatus() != $model::STATUS_DELETED) { ?>
                 <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
@@ -37,8 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="space"></div>
     <div class="space"></div>
     <div class="space"></div>
-    
-    
+
+
     <div class="row">
         <?php if ($model->getStatus() == $model::STATUS_DELETED) { ?>
             <div class="col-md-12 m-b-md">
@@ -47,16 +47,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="space"></div>
             </div>
         <?php } ?>
-        
+
         <div class="col-md-12">
             <b><?= $model->job->job_name ?></b>
             <br>
-            
+
             <?php foreach ($model->adJobLocations as $adJobLocation) { ?>
                 <?= $adJobLocation->job_location ?><?= $adJobLocation->additional_info ? '. '.$adJobLocation->additional_info : '' ?><br>
             <?php } ?>
         </div>
-        
+
         <div class="col-md-12 m-t-md">
             <?php foreach ($model->adNewspapers as $adNewspaper) { ?>
                 <b><?= $adNewspaper->newspaper->newspaper_name ?>:</b>

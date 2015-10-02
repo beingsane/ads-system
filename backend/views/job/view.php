@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Job */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Jobs'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Jobs'), 'url' => \common\helpers\UrlHelper::previous()];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="job-view">

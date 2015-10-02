@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Newspaper */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Newspapers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Newspapers'), 'url' => \common\helpers\UrlHelper::previous()];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="newspaper-view">

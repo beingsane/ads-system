@@ -44,7 +44,7 @@ class ExportController extends Controller
      */
     public function actionIndex()
     {
-        Url::remember();
+        \common\helpers\UrlHelper::remember();
 
         $searchModel = new ExportItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -65,7 +65,7 @@ class ExportController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(Url::previous());
+        return $this->redirect(\common\helpers\UrlHelper::previous());
     }
 
     public function actionExport()

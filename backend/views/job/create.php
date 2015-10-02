@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Job */
 
 $this->title = Yii::t('app', 'Create Job');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Jobs'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Jobs'), 'url' => \common\helpers\UrlHelper::previous()];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="job-create">

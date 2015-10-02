@@ -43,7 +43,7 @@ class AdController extends Controller
      */
     public function actionIndex()
     {
-        Url::remember();
+        \common\helpers\UrlHelper::remember();
 
         $searchModel = new AdSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -125,7 +125,7 @@ class AdController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(Url::previous());
+        return $this->redirect(\common\helpers\UrlHelper::previous());
     }
 
     /**

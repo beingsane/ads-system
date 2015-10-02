@@ -55,7 +55,7 @@ class BaseCrudController extends Controller
      */
     public function actionIndex()
     {
-        Url::remember(Url::toRoute([$this->id.'/']));
+        \common\helpers\UrlHelper::remember();
 
         $searchModel = new $this->searchModelClass();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

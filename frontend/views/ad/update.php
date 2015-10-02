@@ -9,7 +9,7 @@ use yii\helpers\Url;
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Ad',
 ]) . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => Url::previous()];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ads'), 'url' => \common\helpers\UrlHelper::previous()];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'View').': '.$model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>

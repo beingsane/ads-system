@@ -3,7 +3,8 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'sourceLanguage' => 'en-US',
     'language' => 'en-US',
-    //'language' => 'de-DE',
+    'language' => 'de-DE',
+    //'language' => 'ru-RU',
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
