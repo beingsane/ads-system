@@ -43,6 +43,7 @@ class BaseCrudController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'restore' => ['post'],
                 ],
             ],
         ];
@@ -125,6 +126,26 @@ class BaseCrudController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Restores an existing model.
+     * If restore is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionRestore($id)
+    {
+        $model = $this->findModel($id);
+
+        $model->deleted_at = null;
+        if ($model->save()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**

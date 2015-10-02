@@ -30,7 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'newspaper_name',
-            'deleted_at',
+            'statusHtml:html',
+            [
+                'attribute' => 'publishDays',
+                'format' => 'html',
+                'value' => $model->getPublishDaysText(),
+            ]
         ],
     ]) ?>
 

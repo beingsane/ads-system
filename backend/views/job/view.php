@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'job_name',
-            'deleted_at',
+            'statusHtml:html',
         ],
     ]) ?>
 

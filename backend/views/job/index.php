@@ -23,13 +23,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'job_name',
-            'deleted_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            'statusHtml:html',
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => "{view}\n{update}\n{delete}\n{restore}",
+                'buttons' => [
+                    'restore' => function ($url, $model, $key) {
+                        $html = '';
+
+                        if ($model->getStatus() == $model::STATUS_DELETED) {
+                            $html .= Html::a(
+                                '<span class="glyphicon glyphicon-upload"></span>',
+                                ['restore', 'id' => $model->id],
+                                ['title' => Yii::t('app', 'Restore'), 'data-method' => 'post', 'data-confirm' => Yii::t('app', 'Are you sure you want to restore this item?')]
+                            );
+                        }
+
+                        return $html;
+                    },
+                ]
+            ],
         ],
     ]); ?>
 

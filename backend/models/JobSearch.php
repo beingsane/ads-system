@@ -62,27 +62,28 @@ class JobSearch extends Job
         ]);
 
         $query->andFilterWhere(['like', 'job_name', $this->job_name]);
+        $query->orderBy(['deleted_at' => SORT_ASC]);
 
         return $dataProvider;
     }
-    
+
     public static function jobList($active = true, $deleted = false)
     {
         $query = Job::find();
-        
+
         if (!$active && !$deleted) {
             return [];
         }
-        
+
         if ($active && !$deleted) {
             $query->where(['deleted_at' => null]);
         } else if ($deleted && !$active) {
             $query->where(['not' => ['deleted_at' => null]]);
         }
-        
+
         $jobs = $query->all();
         $res = ArrayHelper::map($jobs, 'id', 'job_name');
-        
+
         return $res;
     }
 }

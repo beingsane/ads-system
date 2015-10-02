@@ -58,10 +58,10 @@ class NewspaperSearch extends Newspaper
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'deleted_at' => $this->deleted_at,
         ]);
 
         $query->andFilterWhere(['like', 'newspaper_name', $this->newspaper_name]);
+        $query->orderBy(['deleted_at' => SORT_ASC]);
 
         return $dataProvider;
     }

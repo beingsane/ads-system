@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\traits\StatusTrait;
 
 /**
  * This is the model class for table "job".
@@ -14,6 +15,10 @@ use Yii;
  */
 class Job extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DELETED = 'deleted';
+    use StatusTrait;
+
     /**
      * @inheritdoc
      */
@@ -58,6 +63,7 @@ class Job extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'job_name' => Yii::t('app', 'Job Name'),
+            'statusHtml' => Yii::t('app', 'Status'),
         ];
     }
 

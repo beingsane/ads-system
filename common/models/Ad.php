@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use dektrium\user\models\User;
+use common\traits\StatusTrait;
 
 /**
  * This is the model class for table "ad".
@@ -24,8 +25,9 @@ class Ad extends \yii\db\ActiveRecord
 {
     const STATUS_ACTIVE = 'active';
     const STATUS_DELETED = 'deleted';
-    
-    
+    use StatusTrait;
+
+
     /**
      * @inheritdoc
      */
@@ -44,7 +46,7 @@ class Ad extends \yii\db\ActiveRecord
             [['job_id'], 'integer'],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -78,7 +80,7 @@ class Ad extends \yii\db\ActiveRecord
             'job_id' => Yii::t('app', 'Job'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
-            
+
             'adJobLocations' => Yii::t('app', 'Job locations'),
             'adNewspapers' => Yii::t('app', 'Newspapers'),
         ];
@@ -115,23 +117,23 @@ class Ad extends \yii\db\ActiveRecord
     {
         return $this->hasMany(AdNewspaper::className(), ['ad_id' => 'id']);
     }
-    
-    
-    
+
+
+
     public function loadRelation($mainModel, $relationName, $relatedModelClassName, $data)
     {
         $loaded = true;
         $models = [];
-        
+
         $stub = new $relatedModelClassName;
         $formName = $stub->formName();
         unset($stub);
-        
+
         if (isset($data[$formName])) {
             foreach ($data[$formName] as $modelData) {
                 if (isset($modelData['id'])) {
                     $model = $relatedModelClassName::findOne($modelData['id']);
-                    
+
                     if (!$model) {
                         unset($modelData['id']);
                         $model = new $relatedModelClassName();
@@ -139,21 +141,21 @@ class Ad extends \yii\db\ActiveRecord
                 } else {
                     $model = new $relatedModelClassName();
                 }
-                
+
                 $currentModelLoaded = $model->load([$formName => $modelData]);
                 if (!$currentModelLoaded) $loaded = false;
-                
+
                 $models[] = $model;
             }
-            
+
             $mainModel->populateRelation($relationName, $models);
         } else {
             $loaded = false;
         }
-        
+
         return $loaded;
     }
-    
+
     public function loadWithRelations($data)
     {
         $loaded = true;
@@ -161,17 +163,17 @@ class Ad extends \yii\db\ActiveRecord
             $itemLoaded = $this->load($data);
             $loaded = $loaded && $itemLoaded;
             if (!$loaded) break;
-            
+
             $itemLoaded = $this->loadRelation($this, 'adJobLocations', AdJobLocation::className(), $data);
             $loaded = $loaded && $itemLoaded;
-            
+
             $itemLoaded = $this->loadRelation($this, 'adNewspapers', AdNewspaper::className(), $data);
             $loaded = $loaded && $itemLoaded;
-            
+
             $stub = new AdNewspaperPlacementDate();
             $formName = $stub->formName();
             unset($stub);
-            
+
             foreach ($this->adNewspapers as $i => $adNewspaper) {
                 if (isset($data[$formName][$i])) {
                     $itemLoaded = $this->loadRelation($adNewspaper, 'adNewspaperPlacementDates',
@@ -181,38 +183,38 @@ class Ad extends \yii\db\ActiveRecord
                 } else {
                     $itemLoaded = true;
                 }
-                
+
                 $loaded = $loaded && $itemLoaded;
             }
         }
         while (false);
-        
+
         return $loaded;
     }
-    
+
     public function validateWithRelations()
     {
         $validated = true;
         do {
             $itemValidated = $this->validate();
             $validated = $validated && $itemValidated;
-            
+
             $itemValidated = static::validateMultiple($this->adJobLocations);
             $validated = $validated && $itemValidated;
-            
+
             $itemValidated = static::validateMultiple($this->adNewspapers);
             $validated = $validated && $itemValidated;
-            
+
             foreach ($this->adNewspapers as $i => $adNewspaper) {
                 $itemValidated = static::validateMultiple($adNewspaper->adNewspaperPlacementDates);
                 $validated = $validated && $itemValidated;
             }
         }
         while (false);
-        
+
         return $validated;
     }
-    
+
     public function getModel($id, $className)
     {
         if ($id) {
@@ -220,23 +222,23 @@ class Ad extends \yii\db\ActiveRecord
         } else {
             $model = new $className();
         }
-        
+
         return $model;
     }
-    
+
     public function deleteRelations($oldModels, $newModels, $modelClassName)
     {
         $oldIDs = ArrayHelper::map($oldModels, 'id', 'id');
         $newIDs = ArrayHelper::map($newModels, 'id', 'id');
         $deletedIDs = array_filter(array_diff($oldIDs, $newIDs));
-        
+
         if (!empty($deletedIDs)) {
             // it does not delete inner relations so it is needed to setup cascade deletion
             // in foreign key settings in database
             $modelClassName::deleteAll(['id' => $deletedIDs]);
         }
     }
-    
+
     public function saveWithRelations()
     {
         $transaction = \Yii::$app->db->beginTransaction();
@@ -245,14 +247,14 @@ class Ad extends \yii\db\ActiveRecord
             do {
                 // we need to reload model because we need to get all previous relations
                 $oldModel = $this->getModel($this->id, static::className());
-                
-                
+
+
                 $saved = $this->save(false);
                 if (!$saved) break;
-                
+
                 $ad_id = $this->id;
-                
-                
+
+
                 $this->deleteRelations($oldModel->adJobLocations, $this->adJobLocations, AdJobLocation::className());
                 foreach ($this->adJobLocations as $modelLocation) {
                     $modelLocation->ad_id = $ad_id;
@@ -260,20 +262,20 @@ class Ad extends \yii\db\ActiveRecord
                     if (!$saved) break;
                 }
                 if (!$saved) break;
-                
-                
-                
+
+
+
                 $this->deleteRelations($oldModel->adNewspapers, $this->adNewspapers, AdNewspaper::className());
                 foreach ($this->adNewspapers as $modelNewspaper) {
                     $oldModelNewspaper = $this->getModel($modelNewspaper->id, AdNewspaper::className());
-                    
+
                     $modelNewspaper->ad_id = $ad_id;
                     $saved = $modelNewspaper->save(false);
                     if (!$saved) break;
-                    
+
                     $ad_newspaper_id = $modelNewspaper->id;
-                    
-                    
+
+
                     $this->deleteRelations($oldModelNewspaper->adNewspaperPlacementDates,
                         $modelNewspaper->adNewspaperPlacementDates,
                         AdNewspaperPlacementDate::className()
@@ -286,41 +288,25 @@ class Ad extends \yii\db\ActiveRecord
                     if (!$saved) break;
                 }
                 if (!$saved) break;
-                
-                
+
+
                 $saved = true;
             } while(false);
-            
+
         } catch (\yii\db\Exception $e) {
             Yii::error($e->getMessage());
             $message = (YII_DEBUG ? $e->getMessage() : Yii::t('app', 'Error occured while saving in database'));
             Yii::$app->session->setFlash('error', $message);
-            
+
             $saved = false;
         }
-        
+
         if ($saved) {
             $transaction->commit();
         } else {
             $transaction->rollBack();
         }
-        
+
         return $saved;
-    }
-    
-    public function getStatus()
-    {
-        return ($this->deleted_at == null ? static::STATUS_ACTIVE : static::STATUS_DELETED);
-    }
-    
-    public function getStatusName()
-    {
-        $statusName = '';
-        switch ($this->getStatus()) {
-            case static::STATUS_ACTIVE:  $statusName = Yii::t('app', 'Active');  break;
-            case static::STATUS_DELETED: $statusName = Yii::t('app', 'Deleted'); break;
-        }
-        
-        return $statusName;
     }
 }
