@@ -13,13 +13,15 @@ if (!isset($i)) $i = 0;
 
 ?>
 
-<div class="tag-choice" title="<?= $model->__toString() ?>">
+<div class="tag-choice <?= $model->hasErrors() ? 'has-error' : '' ?>"
+    title="<?= $model->__toString() .($model->hasErrors() ? '. '.$model->getErrors('placement_date')[0] : '') ?>"
+    >
     <span class="tag-choice-remove">×</span>
-    
+
     <span class="date-text"><?= $model->__toString() ?></span>
-    
+
     <?php if ($model->id) echo Html::activeHiddenInput($model, '['.$n.']['.$i.']id'); ?>
-    
+
     <?= $form->field($model, '['.$n.']['.$i.']placement_date', ['options' => ['class' => 'hidden']])
         ->hiddenInput(['maxlength' => true])
         ->label(false)

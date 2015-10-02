@@ -135,6 +135,10 @@ a.desc:after {
     padding: 0 6px;
 }
 
+.tag-choice.has-error {
+    border: 1px solid #a94442;
+}
+
 .tag-choice-remove {
     color: #000;
     cursor: pointer;

@@ -8,6 +8,7 @@ use common\models\AdNewspaperPlacementDate;
 use backend\models\NewspaperSearch;
 use common\helpers\Render;
 use common\widgets\DatePicker;
+use common\models\Newspaper;
 
 /* @var $this yii\web\View */
 /* @var $render common\helpers\Render */
@@ -29,7 +30,25 @@ $render = new Render($form, $model);
     <div class="has-right-control">
         <div class="row">
             <div class="col-md-12">
-                <?= $render->selectField('['.$n.']newspaper_id', NewspaperSearch::newspaperList(), ['placeholder' => Yii::t('app', 'Select newspaper...')])->label(false) ?>
+                <?php
+                    $newspaperList = NewspaperSearch::newspaperList();
+
+                    $newspaperOptions = [];
+                    foreach ($newspaperList as $id => $name) {
+                        $newspaper = Newspaper::findOne($id);
+                        $newspaperOptions[$id] = ['data-params' => ['publishDays' => $newspaper->publishDays]];
+                    }
+                ?>
+                <?= $render->selectField(
+                        '['.$n.']newspaper_id',
+                        $newspaperList,
+                        [
+                            'placeholder' => Yii::t('app', 'Select newspaper...'),
+                            'options' => $newspaperOptions,
+                        ]
+                    )
+                    ->label(false)
+               ?>
             </div>
 
 

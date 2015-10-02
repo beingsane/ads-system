@@ -120,7 +120,7 @@ class Ad extends \yii\db\ActiveRecord
 
 
 
-    public function loadRelation($mainModel, $relationName, $relatedModelClassName, $data)
+    public function loadRelation($mainModel, $relationName, $parentRelationName, $relatedModelClassName, $data)
     {
         $loaded = true;
         $models = [];
@@ -145,6 +145,7 @@ class Ad extends \yii\db\ActiveRecord
                 $currentModelLoaded = $model->load([$formName => $modelData]);
                 if (!$currentModelLoaded) $loaded = false;
 
+                $model->populateRelation($parentRelationName, $mainModel);
                 $models[] = $model;
             }
 
@@ -164,10 +165,10 @@ class Ad extends \yii\db\ActiveRecord
             $loaded = $loaded && $itemLoaded;
             if (!$loaded) break;
 
-            $itemLoaded = $this->loadRelation($this, 'adJobLocations', AdJobLocation::className(), $data);
+            $itemLoaded = $this->loadRelation($this, 'adJobLocations', 'ad', AdJobLocation::className(), $data);
             $loaded = $loaded && $itemLoaded;
 
-            $itemLoaded = $this->loadRelation($this, 'adNewspapers', AdNewspaper::className(), $data);
+            $itemLoaded = $this->loadRelation($this, 'adNewspapers', 'ad', AdNewspaper::className(), $data);
             $loaded = $loaded && $itemLoaded;
 
             $stub = new AdNewspaperPlacementDate();
@@ -176,7 +177,7 @@ class Ad extends \yii\db\ActiveRecord
 
             foreach ($this->adNewspapers as $i => $adNewspaper) {
                 if (isset($data[$formName][$i])) {
-                    $itemLoaded = $this->loadRelation($adNewspaper, 'adNewspaperPlacementDates',
+                    $itemLoaded = $this->loadRelation($adNewspaper, 'adNewspaperPlacementDates', 'adNewspaper',
                         AdNewspaperPlacementDate::className(),
                         [$formName => $data[$formName][$i]]
                     );
@@ -202,13 +203,13 @@ class Ad extends \yii\db\ActiveRecord
             $itemValidated = static::validateMultiple($this->adJobLocations);
             $validated = $validated && $itemValidated;
 
-            $itemValidated = static::validateMultiple($this->adNewspapers);
-            $validated = $validated && $itemValidated;
-
             foreach ($this->adNewspapers as $i => $adNewspaper) {
                 $itemValidated = static::validateMultiple($adNewspaper->adNewspaperPlacementDates);
                 $validated = $validated && $itemValidated;
             }
+
+            $itemValidated = static::validateMultiple($this->adNewspapers);
+            $validated = $validated && $itemValidated;
         }
         while (false);
 

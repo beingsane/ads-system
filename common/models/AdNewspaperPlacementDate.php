@@ -30,7 +30,22 @@ class AdNewspaperPlacementDate extends \yii\db\ActiveRecord
     {
         return [
             [['placement_date'], 'required'],
+            [['placement_date'], 'checkPaperDate'],
         ];
+    }
+
+    public function checkPaperDate($attribute, $params)
+    {
+        $value = $this->$attribute;
+        $dayOfWeek = date('N', strtotime($value));
+
+        $publishDays = $this->adNewspaper->newspaper->publishDays;
+        if (isset($publishDays[$dayOfWeek]) && $publishDays[$dayOfWeek] == 1) {
+            return true;
+        }
+
+        $this->addError($attribute, Yii::t('app', 'This date is not allowed for this paper'));
+        return false;
     }
 
     /**
@@ -52,7 +67,7 @@ class AdNewspaperPlacementDate extends \yii\db\ActiveRecord
     {
         return $this->hasOne(AdNewspaper::className(), ['id' => 'ad_newspaper_id']);
     }
-    
+
     public function __toString()
     {
         return ($this->placement_date ? Yii::$app->formatter->asDate($this->placement_date) : '');
