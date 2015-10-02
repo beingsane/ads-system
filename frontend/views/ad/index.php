@@ -36,7 +36,7 @@ $this->title = Yii::t('app', 'Ads');
             </a>
             <?= Html::a('<span class="text-muted">Reset filter</span>', ['ad/index'], ['class' => 'pull-right']) ?>
         </div>
-        <div id="filter" class="panel-collapse collapse out">
+        <div id="filter" class="panel-collapse collapse save-filter-state <?= isset($_COOKIE['filter-state']) && $_COOKIE['filter-state'] ? 'in' : 'out' ?>">
             <div class="panel-body">
                 <?php echo $this->render('_search', ['model' => $searchModel]); ?>
             </div>

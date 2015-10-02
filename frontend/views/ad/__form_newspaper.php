@@ -25,15 +25,15 @@ $render = new Render($form, $model);
         <button class="newspaper-remove-item btn btn-default" type="button">×</button>
         <?php if ($model->id) echo Html::activeHiddenInput($model, '['.$n.']id'); ?>
     </div>
-    
+
     <div class="has-right-control">
         <div class="row">
             <div class="col-md-12">
-                <?= $render->selectField('['.$n.']newspaper_id', NewspaperSearch::jobList(), ['placeholder' => Yii::t('app', 'Select newspaper...')])->label(false) ?>
+                <?= $render->selectField('['.$n.']newspaper_id', NewspaperSearch::newspaperList(), ['placeholder' => Yii::t('app', 'Select newspaper...')])->label(false) ?>
             </div>
-            
-            
-            
+
+
+
             <?php
                 $models = $model->adNewspaperPlacementDates;
             ?>
@@ -53,10 +53,10 @@ $render = new Render($form, $model);
                     'placement_date',
                 ],
             ]); ?>
-            
+
             <div class="col-md-3">
                 <?php $errors = $model->getErrors('adNewspaperPlacementDates'); ?>
-                
+
                 <div class="form-group required <?= (empty($errors) ? '' : 'has-error') ?>">
                     <?php
                         echo '<div class="input-group">';
@@ -73,9 +73,9 @@ $render = new Render($form, $model);
                                 ],
                             ]);
                         echo '</div>';
-                        
-                        
-                        
+
+
+
                         if (!empty($errors)) {
                             echo Html::tag('div', Html::encode(implode('<br>', $errors)), ['class' => 'help-block']);
                         }
@@ -83,7 +83,7 @@ $render = new Render($form, $model);
                     <button type="button" class="btn btn-primary btn-xs dates-add-item hidden"></button>
                 </div>
             </div>
-            
+
             <div class="col-md-9">
                 <div class="placement_date-container tag-choice-container">
                     <?php foreach ($models as $i => $dateModel) { ?>
@@ -91,12 +91,12 @@ $render = new Render($form, $model);
                     <?php } ?>
                 </div>
             </div>
-            
+
             <?php DynamicFormWidget::end(); ?>
 
         </div>
     </div>
-    
+
     <div class="space"></div>
     <div class="space"></div>
 </div>
