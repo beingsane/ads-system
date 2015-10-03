@@ -50,8 +50,11 @@ use backend\models\NewspaperSearch;
 
     <div class="form-group no-margin">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-    </div>
 
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <?= Html::submitButton(Yii::t('app', 'Export'), ['class' => 'btn btn-success btn-export pull-right']) ?>
+    </div>
     <?php ActiveForm::end(); ?>
 
 </div>
@@ -59,15 +62,9 @@ use backend\models\NewspaperSearch;
 <?php
     $script = "
         $('.btn-export').click(function() {
-            alert('todo');
-
             var form = $(this).closest('form');
             var attr = form.attr('action');
             form.attr('action', '".Url::toRoute(['/export/export'])."').submit();
-
-            setTimeout(function() {
-                form.attr('action', attr);
-            }, 1000);
         });
     ";
     $this->registerJs($script);

@@ -98,15 +98,18 @@ class AdSearch extends Ad
         $query->andFilterWhere(['exists', $subQuery]);
 
 
-        $subQueryText = \common\models\AdJobLocation::find();
-        $subQueryText->where(['=', 'ad_id', new \yii\db\Expression('ad.id')]);
-        $subQueryText->andFilterWhere(['or',
-            ['like', 'job_location', $this->text],
-            ['like', 'street_names', $this->text],
-            ['like', 'additional_info', $this->text],
-        ]);
+        if ($this->text) {
+            $subQueryText = \common\models\AdJobLocation::find();
+            $subQueryText->where(['=', 'ad_id', new \yii\db\Expression('ad.id')]);
+            $subQueryText->andFilterWhere(['or',
+                ['like', 'job_location', $this->text],
+                ['like', 'street_names', $this->text],
+                ['like', 'additional_info', $this->text],
+            ]);
+            $subQueryText->limit(1);
 
-        $query->andFilterWhere(['exists', $subQueryText]);
+            $query->andFilterWhere(['exists', $subQueryText]);
+        }
 
 
         //echo $query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql; die;

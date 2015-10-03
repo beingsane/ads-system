@@ -240,5 +240,15 @@ a:focus { outline:none }
     font-size: 10px;
 }
 
+
+.export-item:nth-of-type(1) {
+    border-top: 1px solid #ccc;
+}
+
+.export-item {
+    padding: 0px 10px;
+    border-bottom: 1px solid #ccc;
+}
+
 /* -------------------------------------------------------------------------------- */
 

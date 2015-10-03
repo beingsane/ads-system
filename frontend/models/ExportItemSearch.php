@@ -63,19 +63,22 @@ class ExportItemSearch extends ExportItem
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $allModels = false)
     {
         $query = ExportItem::find();
         $query->joinWith(['adNewspaper']);
         $query->joinWith(['adNewspaper.ad']);
         $query->joinWith(['adNewspaper.ad.job']);
         $query->joinWith(['adNewspaper.newspaper']);
-        $query->joinWith(['adNewspaper.ad.adJobLocations']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => ['defaultOrder' => ['placement_date' => SORT_ASC]],
+            'pagination' => [
+                'pageSize' => ($allModels ? 0 : 4),
+            ],
         ]);
+
 
         $dataProvider->sort->attributes['adNewspaper.ad.job.job_name'] = [
             'asc' => ['job.job_name' => SORT_ASC],
@@ -110,48 +113,24 @@ class ExportItemSearch extends ExportItem
         $query->andFilterWhere(['ad.job_id' => $this->job_id]);
         $query->andFilterWhere(['ad.id' => $this->id]);
 
-        $query->andFilterWhere(['or',
-            ['like', 'ad_job_location.job_location', $this->text],
-            ['like', 'ad_job_location.street_names', $this->text],
-            ['like', 'ad_job_location.additional_info', $this->text],
-        ]);
+
+        if ($this->text) {
+            $subQueryText = \common\models\AdJobLocation::find();
+            $subQueryText->where(['=', 'ad_newspaper.ad_id', new \yii\db\Expression('ad.id')]);
+            $subQueryText->andFilterWhere(['or',
+                ['like', 'job_location', $this->text],
+                ['like', 'street_names', $this->text],
+                ['like', 'additional_info', $this->text],
+            ]);
+            $subQueryText->limit(1);
+
+            $query->andFilterWhere(['exists', $subQueryText]);
+        };
+
+        //echo $query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql; die;
 
         //$query->andWhere(['ad.deleted_at' => null]);
 
         return $dataProvider;
-    }
-
-    /**
-     * Export ads list
-     * @return array $models
-     */
-    public function export($params)
-    {
-        $query = ExportItem::find();
-        $query->joinWith(['adNewspaper']);
-        $query->joinWith(['adNewspaper.ad']);
-        $query->joinWith(['adNewspaper.newspaper']);
-        $query->joinWith(['adNewspaper.ad.job']);
-
-
-        $loaded = $this->load($params);
-        if (!$loaded || !$this->validate()) {
-            return null;
-        }
-
-        $query->andFilterWhere([
-            '>=', 'placement_date', $this->date_from
-        ]);
-        $query->andFilterWhere([
-            '<=', 'placement_date', $this->date_to
-        ]);
-        $query->andWhere([
-            'ad.deleted_at' => null
-        ]);
-
-        $query->orderBy(['placement_date' => SORT_ASC]);
-
-        $models = $query->all();
-        return $models;
     }
 }
