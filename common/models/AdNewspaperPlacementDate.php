@@ -36,9 +36,14 @@ class AdNewspaperPlacementDate extends \yii\db\ActiveRecord
 
     public function checkPaperDate($attribute, $params)
     {
-        $value = $this->$attribute;
-        $dayOfWeek = date('N', strtotime($value));
+        $date = strtotime($this->$attribute);
 
+        // don't check past dates
+        if ($date < strtotime('today')) {
+            return true;
+        }
+
+        $dayOfWeek = date('N', $date);
         $publishDays = $this->adNewspaper->newspaper->publishDays;
         if (isset($publishDays[$dayOfWeek]) && $publishDays[$dayOfWeek] == 1) {
             return true;
