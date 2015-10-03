@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -20,6 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <span class="pull-left">
         <h1 class="no-margin"><?= Html::encode($this->title) ?></h1>
     </span>
+
+    <div class="pull-right">
+        <?= Html::submitButton(Yii::t('app', 'Export'), ['class' => 'btn btn-success btn-export pull-right']) ?>
+    </div>
     <div class="clearfix"></div>
 
 
@@ -113,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         $html .= '<br/>';
                         $html .= Html::a('<i class="glyphicon glyphicon-trash"></i>',
                             ['/export/delete-date-item', 'id' => $model->id],
-                            ['data-method' => 'post', 'title' => Yii::t('app', 'Delete this item from export')]
+                            ['data-method' => 'post', 'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item from export'), 'title' => Yii::t('app', 'Delete this item from export')]
                         );
 
                         $html .= '</div>';
@@ -125,3 +130,15 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 </div>
+
+<?php
+    $script = "
+        $('.btn-export').click(function() {
+            var form = $('#export-filter-form');
+            var attr = form.attr('action');
+            form.attr('action', '".Url::toRoute(['/export/export'])."').submit();
+        });
+    ";
+    $this->registerJs($script);
+?>
+

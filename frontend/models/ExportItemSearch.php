@@ -75,7 +75,7 @@ class ExportItemSearch extends ExportItem
             'query' => $query,
             'sort' => ['defaultOrder' => ['placement_date' => SORT_ASC]],
             'pagination' => [
-                'pageSize' => ($allModels ? 0 : 4),
+                'pageSize' => ($allModels ? 0 : 20),
             ],
         ]);
 

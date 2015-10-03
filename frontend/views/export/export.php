@@ -7,7 +7,7 @@ use yii\widgets\ListView;
 /* @var $searchModel frontend\models\ExportItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Export');
+$this->title = Yii::t('app', 'Ads');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Export'), 'url' => \common\helpers\UrlHelper::previous()];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

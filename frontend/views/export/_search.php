@@ -18,6 +18,7 @@ use backend\models\NewspaperSearch;
         'action' => ['index'],
         'method' => 'get',
         'enableClientValidation' => false,
+        'id' => 'export-filter-form',
     ]); ?>
     <?php $render = new Render($form, $model); ?>
 
@@ -50,22 +51,7 @@ use backend\models\NewspaperSearch;
 
     <div class="form-group no-margin">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <?= Html::submitButton(Yii::t('app', 'Export'), ['class' => 'btn btn-success btn-export pull-right']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 
 </div>
-
-<?php
-    $script = "
-        $('.btn-export').click(function() {
-            var form = $(this).closest('form');
-            var attr = form.attr('action');
-            form.attr('action', '".Url::toRoute(['/export/export'])."').submit();
-        });
-    ";
-    $this->registerJs($script);
-?>
