@@ -23,7 +23,7 @@ if (!isset($n)) $n = 0;
 
     <div class="has-right-control">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <?= $form->field($model, '['.$n.']job_location')
                     ->textInput([
                         'maxlength' => true,
@@ -34,7 +34,7 @@ if (!isset($n)) $n = 0;
                 ?>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <?= $form->field($model, '['.$n.']street_names')
                     ->textInput([
                         'maxlength' => true,
@@ -45,7 +45,7 @@ if (!isset($n)) $n = 0;
                 ?>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <?= $form->field($model, '['.$n.']additional_info')
                     ->textInput([
                         'maxlength' => true,

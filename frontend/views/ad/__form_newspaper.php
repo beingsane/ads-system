@@ -29,7 +29,7 @@ $render = new Render($form, $model);
 
     <div class="has-right-control">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <?php
                     $newspaperList = NewspaperSearch::newspaperList();
 
@@ -73,7 +73,7 @@ $render = new Render($form, $model);
                 ],
             ]); ?>
 
-            <div class="col-md-3">
+            <div class="col-sm-3">
                 <?php $errors = $model->getErrors('adNewspaperPlacementDates'); ?>
 
                 <div class="form-group required <?= (empty($errors) ? '' : 'has-error') ?>">
@@ -103,7 +103,7 @@ $render = new Render($form, $model);
                 </div>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-sm-9">
                 <div class="placement_date-container tag-choice-container">
                     <?php foreach ($models as $i => $dateModel) { ?>
                         <?= $this->render('__form_newspaper_date', ['form' => $form, 'model' => $dateModel, 'n' => $n, 'i' => $i]) ?>

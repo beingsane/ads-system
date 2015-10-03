@@ -22,7 +22,7 @@ use common\widgets\DatePicker;
     <?php $render = new Render($form, $model); ?>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <?php if ($model->id) echo Html::activeHiddenInput($model, 'id'); ?>
 
                 <label class="control-label"><?= Yii::t('app', 'Job') ?></label>
@@ -55,7 +55,7 @@ use common\widgets\DatePicker;
         ]); ?>
 
         <div class="row m-t-lg m-b-md">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <label class="control-label"><?= Yii::t('app', 'Job Location') ?></label>
 
                 <div class="pull-right">
@@ -119,7 +119,7 @@ use common\widgets\DatePicker;
         ]); ?>
 
         <div class="row m-t-lg m-b-md">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <label class="control-label"><?= Yii::t('app', 'Newspaper edition') ?></label>
 
                 <div class="pull-right">
@@ -149,7 +149,7 @@ use common\widgets\DatePicker;
         <div class="space"></div>
         <div class="space"></div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <div class="form-group">
                     <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                 </div>
