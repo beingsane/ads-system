@@ -99,7 +99,11 @@ class AdSearch extends Ad
 
         $subQueryText = \common\models\AdJobLocation::find();
         $subQueryText->where(['=', 'ad_id', new \yii\db\Expression('ad.id')]);
-        $subQueryText->andFilterWhere(['or', ['like', 'job_location', $this->text], ['like', 'additional_info', $this->text]]);
+        $subQueryText->andFilterWhere(['or',
+            ['like', 'job_location', $this->text],
+            ['like', 'street_names', $this->text],
+            ['like', 'additional_info', $this->text],
+        ]);
 
         $query->andFilterWhere(['exists', $subQueryText]);
 

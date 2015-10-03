@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $ad_id
  * @property string $job_location
+ * @property string $street_names
  * @property string $additional_info
  *
  * @property Ad $ad
@@ -31,7 +32,7 @@ class AdJobLocation extends \yii\db\ActiveRecord
     {
         return [
             [['job_location'], 'required'],
-            [['job_location', 'additional_info'], 'string', 'max' => 1000]
+            [['job_location', 'street_names', 'additional_info'], 'string', 'max' => 1000]
         ];
     }
 
@@ -44,6 +45,7 @@ class AdJobLocation extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'ad_id' => Yii::t('app', 'Ad ID'),
             'job_location' => Yii::t('app', 'Job Location'),
+            'street_names' => Yii::t('app', 'Street names or neighborhoods'),
             'additional_info' => Yii::t('app', 'Additional Info'),
         ];
     }

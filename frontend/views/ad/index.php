@@ -64,7 +64,12 @@ $this->title = Yii::t('app', 'Ads');
                 'content' => function ($model, $key, $index, $column) {
                     $content = [];
                     foreach ($model->adJobLocations as $adJobLocation) {
-                        $content[] = $adJobLocation->job_location .'. ' .$adJobLocation->additional_info;
+                        $itemText = [];
+                        if ($adJobLocation->job_location) $itemText[] = $adJobLocation->job_location;
+                        if ($adJobLocation->street_names) $itemText[] = $adJobLocation->street_names;
+                        if ($adJobLocation->additional_info) $itemText[] = $adJobLocation->additional_info;
+
+                        $content[] = implode('. ', $itemText);
                     }
 
                     return implode('<br>', $content);
@@ -76,11 +81,11 @@ $this->title = Yii::t('app', 'Ads');
                 'content' => function ($model, $key, $index, $column) {
                     $content = [];
                     foreach ($model->adNewspapers as $adNewspaper) {
-                        $info = [];
-                        $info[] = '<b>'.$adNewspaper->newspaper->newspaper_name.':</b>';
-                        $info[] = implode(';&nbsp;&nbsp;', $adNewspaper->adNewspaperPlacementDates);
+                        $itemText = [];
+                        $itemText[] = '<b>'.$adNewspaper->newspaper->newspaper_name.':</b>';
+                        $itemText[] = implode(';&nbsp;&nbsp;', $adNewspaper->adNewspaperPlacementDates);
 
-                        $content[] = implode('&nbsp;&nbsp;', $info);
+                        $content[] = implode('&nbsp;&nbsp;', $itemText);
                     }
 
                     return implode('<br>', $content);

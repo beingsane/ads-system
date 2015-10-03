@@ -20,7 +20,7 @@ if (!isset($n)) $n = 0;
         <button class="location-remove-item btn btn-default" type="button">×</button>
         <?php if ($model->id) echo Html::activeHiddenInput($model, '['.$n.']id'); ?>
     </div>
-    
+
     <div class="has-right-control">
         <div class="row">
             <div class="col-md-6">
@@ -33,8 +33,19 @@ if (!isset($n)) $n = 0;
                     ->label(false)
                 ?>
             </div>
-            
+
             <div class="col-md-6">
+                <?= $form->field($model, '['.$n.']street_names')
+                    ->textInput([
+                        'maxlength' => true,
+                        'placeholder' => $model->getAttributeLabel('street_names'),
+                        'title' => $model->getAttributeLabel('street_names'),
+                    ])
+                    ->label(false)
+                ?>
+            </div>
+
+            <div class="col-md-12">
                 <?= $form->field($model, '['.$n.']additional_info')
                     ->textInput([
                         'maxlength' => true,

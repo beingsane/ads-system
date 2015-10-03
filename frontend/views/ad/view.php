@@ -52,9 +52,19 @@ $this->params['breadcrumbs'][] = $this->title;
             <b><?= $model->job->job_name ?></b>
             <br>
 
-            <?php foreach ($model->adJobLocations as $adJobLocation) { ?>
-                <?= $adJobLocation->job_location ?><?= $adJobLocation->additional_info ? '. '.$adJobLocation->additional_info : '' ?><br>
-            <?php } ?>
+            <?php
+                $content = [];
+                foreach ($model->adJobLocations as $adJobLocation) {
+                    $itemText = [];
+                    if ($adJobLocation->job_location) $itemText[] = $adJobLocation->job_location;
+                    if ($adJobLocation->street_names) $itemText[] = $adJobLocation->street_names;
+                    if ($adJobLocation->additional_info) $itemText[] = $adJobLocation->additional_info;
+
+                    $content[] = implode('. ', $itemText);
+                }
+
+                echo implode('<br>', $content);
+            ?>
         </div>
 
         <div class="col-md-12 m-t-md">
