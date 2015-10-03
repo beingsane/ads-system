@@ -129,6 +129,19 @@ class AdController extends Controller
     }
 
     /**
+     * Lists all Ad models.
+     * @return mixed
+     */
+    public function actionDeleteAll()
+    {
+        $searchModel = new AdSearch();
+        $params = Yii::$app->request->post();
+        $searchModel->findAndDeleteAll($params);
+
+        return $this->redirect(Url::toRoute(['index', 'AdSearch' => (isset($params['AdSearch']) ? $params['AdSearch'] : [])]));
+    }
+
+    /**
      * Finds the Ad model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

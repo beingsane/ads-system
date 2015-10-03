@@ -87,16 +87,17 @@ class AdSearch extends Ad
 
 
 
-        $subQuery = \common\models\AdNewspaper::find();
-        $subQuery->joinWith(['adNewspaperPlacementDates']);
-        $subQuery->where(['=', 'ad_id', new \yii\db\Expression('ad.id')]);
-        $subQuery->andFilterWhere(['>=', 'placement_date', $this->date_from]);
-        $subQuery->andFilterWhere(['<=', 'placement_date', $this->date_to]);
-        $subQuery->andFilterWhere(['=', 'newspaper_id', $this->newspaper_id]);
-        $subQuery->limit(1);
+        if ($this->date_from || $this->date_to || $this->newspaper_id) {
+            $subQuery = \common\models\AdNewspaper::find();
+            $subQuery->joinWith(['adNewspaperPlacementDates']);
+            $subQuery->where(['=', 'ad_id', new \yii\db\Expression('ad.id')]);
+            $subQuery->andFilterWhere(['>=', 'placement_date', $this->date_from]);
+            $subQuery->andFilterWhere(['<=', 'placement_date', $this->date_to]);
+            $subQuery->andFilterWhere(['=', 'newspaper_id', $this->newspaper_id]);
+            $subQuery->limit(1);
 
-        $query->andFilterWhere(['exists', $subQuery]);
-
+            $query->andFilterWhere(['exists', $subQuery]);
+        }
 
         if ($this->text) {
             $subQueryText = \common\models\AdJobLocation::find();
@@ -121,5 +122,14 @@ class AdSearch extends Ad
         //$query->andWhere(['ad.deleted_at' => null]);
 
         return $dataProvider;
+    }
+
+    public function findAndDeleteAll($params)
+    {
+        $dataProvider = $this->search($params);
+
+        $subQuery = new \yii\db\Query();
+        $subQuery->select('id')->from(['models' => $dataProvider->query]);
+        Ad::deleteAll(['in', 'id', $subQuery]);
     }
 }
