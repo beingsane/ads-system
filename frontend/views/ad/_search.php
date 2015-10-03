@@ -21,8 +21,6 @@ use backend\models\NewspaperSearch;
     ]); ?>
     <?php $render = new Render($form, $model); ?>
 
-    <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
-
     <div class="row">
         <div class="col-sm-6">
             <?= $render->dateField('date_from') ?>
@@ -58,6 +56,7 @@ use backend\models\NewspaperSearch;
                 'title' => Yii::t('app', 'Find ads that match this filter and delete all found'),
                 'data-method' => 'post',
                 'data-confirm' => Yii::t('app', 'Are you sure you want to delete all ads that match this filter?'),
+                'data-params' => ['_csrf' => Yii::$app->request->getCsrfToken()],
             ]) ?>
         </span>
     </div>

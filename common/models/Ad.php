@@ -296,7 +296,7 @@ class Ad extends \yii\db\ActiveRecord
 
         } catch (\yii\db\Exception $e) {
             Yii::error($e->getMessage());
-            $message = (YII_DEBUG ? $e->getMessage() : Yii::t('app', 'Error occured while saving in database'));
+            $message = (YII_DEBUG ? $e->getMessage() : 'Error occured while saving in database');
             Yii::$app->session->setFlash('error', $message);
 
             $saved = false;

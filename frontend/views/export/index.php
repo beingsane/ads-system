@@ -118,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         $html .= '<br/>';
                         $html .= Html::a('<i class="glyphicon glyphicon-trash"></i>',
                             ['/export/delete-date-item', 'id' => $model->id],
-                            ['data-method' => 'post', 'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item from export'), 'title' => Yii::t('app', 'Delete this item from export')]
+                            ['data-method' => 'post', 'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item from export?'), 'title' => Yii::t('app', 'Delete this item from export')]
                         );
 
                         $html .= '</div>';

@@ -2,9 +2,7 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'sourceLanguage' => 'en-US',
-    'language' => 'en-US',
     'language' => 'de-DE',
-    //'language' => 'ru-RU',
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
@@ -32,6 +30,17 @@ return [
         ],
         'formatter' => [
             'dateFormat' => 'EE, dd.MM.yyyy',
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/messages',
+                    'fileMap' => [
+                        'app' => 'app.php'
+                    ],
+                ],
+            ],
         ],
     ],
 ];
