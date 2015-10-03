@@ -28,7 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="space"></div>
 
 
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" href="#filter-export">
+                <?= Yii::t('app', 'Filter') ?>
+            </a>
+            <?= Html::a('<span class="text-muted">Reset filter</span>', ['index'], ['class' => 'pull-right']) ?>
+        </div>
+        <div id="filter-export" class="panel-collapse collapse save-filter-state <?= isset($_COOKIE['filter-export-state']) && $_COOKIE['filter-export-state'] ? 'in' : 'out' ?>">
+            <div class="panel-body">
+                <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+            </div>
+        </div>
+    </div>
 
 
     <div class="space"></div>
@@ -46,25 +58,36 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             [
-                'attribute' => 'text',
-                'label' => Yii::t('app', 'Text'),
+                'attribute' => 'adNewspaper.ad.job.job_name',
+                'label' => Yii::t('app', 'Job'),
+            ],
+
+            [
+                'attribute' => 'job_locations',
+                'label' => Yii::t('app', 'Job locations'),
                 'content' => function ($model, $key, $index, $column) {
                     $ad = $model->adNewspaper->ad;
                     $html = '';
 
-                    $html .= $model->adNewspaper->newspaper->newspaper_name;
-                    $html .= '<br>';
-
-                    $html .= $ad->job->job_name;
-                    $html .= '<br>';
-
+                    $content = [];
                     foreach ($ad->adJobLocations as $adJobLocation) {
-                        $html .= $adJobLocation->job_location .($adJobLocation->additional_info ? '. '.$adJobLocation->additional_info : '');
-                        $html .= '<br>';
+                        $itemText = [];
+                        if ($adJobLocation->job_location) $itemText[] = $adJobLocation->job_location;
+                        if ($adJobLocation->street_names) $itemText[] = $adJobLocation->street_names;
+                        if ($adJobLocation->additional_info) $itemText[] = $adJobLocation->additional_info;
+
+                        $content[] = implode('. ', $itemText);
                     }
+                    $html .= implode('<br>', $content);
+                    $html .= '<br>';
 
                     return $html;
                 }
+            ],
+
+            [
+                'attribute' => 'adNewspaper.newspaper.newspaper_name',
+                'label' => Yii::t('app', 'Newspaper edition'),
             ],
 
             'placement_date',
@@ -79,19 +102,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         $html .= Html::a('<i class="glyphicon glyphicon-eye-open"></i>',
                             ['/ad/view', 'id' => $model->adNewspaper->ad->id],
-                            ['data-pjax' => '0', 'title' => Yii::t('app', 'View ad')]
+                            ['title' => Yii::t('app', 'View ad')]
                         );
 
                         $html .= '<br/>';
                         $html .= Html::a('<i class="glyphicon glyphicon-pencil"></i>',
                             ['/ad/update', 'id' => $model->adNewspaper->ad->id],
-                            ['data-pjax' => '0', 'title' => Yii::t('app', 'Edit ad')]
+                            ['title' => Yii::t('app', 'Edit ad')]
                         );
 
                         $html .= '<br/>';
                         $html .= Html::a('<i class="glyphicon glyphicon-trash"></i>',
                             ['/export/delete-date-item', 'id' => $model->id],
-                            ['data-pjax' => '0', 'data-method' => 'post', 'title' => Yii::t('app', 'Delete this item from export')]
+                            ['data-method' => 'post', 'title' => Yii::t('app', 'Delete this item from export')]
                         );
 
                         $html .= '</div>';

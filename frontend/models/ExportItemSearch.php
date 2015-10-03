@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\ExportItem;
+use yii\helpers\ArrayHelper;
 
 /**
  * ExportItemSearch represents the model behind the search form about `\common\models\ExportItem`.
@@ -14,13 +15,20 @@ class ExportItemSearch extends ExportItem
 {
     public $date_from;
     public $date_to;
+    public $job_id;
+    public $newspaper_id;
+    public $id;
+    public $text;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
+            [['id', 'job_id', 'newspaper_id'], 'integer'],
             [['date_from', 'date_to'], 'safe'],
+            [['id', 'text'], 'string', 'max' => '100'],
         ];
     }
 
@@ -31,6 +39,21 @@ class ExportItemSearch extends ExportItem
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(parent::attributeLabels(), [
+            'newspaper_id' => Yii::t('app', 'Newspaper edition'),
+            'job_id' => Yii::t('app', 'Job'),
+            'date_from' => Yii::t('app', 'Date from'),
+            'date_to' => Yii::t('app', 'Date to'),
+            'text' => Yii::t('app', 'Text'),
+            'id' => Yii::t('app', 'Ad ID'),
+        ]);
     }
 
     /**
@@ -45,14 +68,31 @@ class ExportItemSearch extends ExportItem
         $query = ExportItem::find();
         $query->joinWith(['adNewspaper']);
         $query->joinWith(['adNewspaper.ad']);
+        $query->joinWith(['adNewspaper.ad.job']);
+        $query->joinWith(['adNewspaper.newspaper']);
+        $query->joinWith(['adNewspaper.ad.adJobLocations']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => ['defaultOrder' => ['placement_date' => SORT_ASC]],
         ]);
 
+        $dataProvider->sort->attributes['adNewspaper.ad.job.job_name'] = [
+            'asc' => ['job.job_name' => SORT_ASC],
+            'desc' => ['job.job_name' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['adNewspaper.newspaper.newspaper_name'] = [
+            'asc' => ['newspaper.newspaper_name' => SORT_ASC],
+            'desc' => ['newspaper.newspaper_name' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['adNewspaper.ad.id'] = [
+            'asc' => ['ad.id' => SORT_ASC],
+            'desc' => ['ad.id' => SORT_DESC],
+        ];
+
         $loaded = $this->load($params);
         if (!$loaded) {
+            // set default filter
             $this->date_from = date('Y-m-d');
             $this->date_to = date('Y-m-d');
         }
@@ -63,15 +103,20 @@ class ExportItemSearch extends ExportItem
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            '>=', 'placement_date', $this->date_from
+        $query->andFilterWhere(['>=', 'placement_date', $this->date_from]);
+        $query->andFilterWhere(['<=', 'placement_date', $this->date_to]);
+
+        $query->andFilterWhere(['ad_newspaper.newspaper_id' => $this->newspaper_id]);
+        $query->andFilterWhere(['ad.job_id' => $this->job_id]);
+        $query->andFilterWhere(['ad.id' => $this->id]);
+
+        $query->andFilterWhere(['or',
+            ['like', 'ad_job_location.job_location', $this->text],
+            ['like', 'ad_job_location.street_names', $this->text],
+            ['like', 'ad_job_location.additional_info', $this->text],
         ]);
-        $query->andFilterWhere([
-            '<=', 'placement_date', $this->date_to
-        ]);
-        $query->andWhere([
-            'ad.deleted_at' => null
-        ]);
+
+        //$query->andWhere(['ad.deleted_at' => null]);
 
         return $dataProvider;
     }

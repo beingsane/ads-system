@@ -34,7 +34,7 @@ $this->title = Yii::t('app', 'Ads');
             <a data-toggle="collapse" href="#filter">
                 <?= Yii::t('app', 'Filter') ?>
             </a>
-            <?= Html::a('<span class="text-muted">Reset filter</span>', ['ad/index'], ['class' => 'pull-right']) ?>
+            <?= Html::a('<span class="text-muted">Reset filter</span>', ['index'], ['class' => 'pull-right']) ?>
         </div>
         <div id="filter" class="panel-collapse collapse save-filter-state <?= isset($_COOKIE['filter-state']) && $_COOKIE['filter-state'] ? 'in' : 'out' ?>">
             <div class="panel-body">
@@ -55,7 +55,7 @@ $this->title = Yii::t('app', 'Ads');
             [
                 'attribute' => 'job',
                 'content' => function ($model, $key, $index, $column) {
-                    return '<b>'.$model->job->job_name.'</b>';
+                    return $model->job->job_name;
                 },
             ],
 
@@ -82,7 +82,7 @@ $this->title = Yii::t('app', 'Ads');
                     $content = [];
                     foreach ($model->adNewspapers as $adNewspaper) {
                         $itemText = [];
-                        $itemText[] = '<b>'.$adNewspaper->newspaper->newspaper_name.':</b>';
+                        $itemText[] = $adNewspaper->newspaper->newspaper_name.':';
                         $itemText[] = implode(';&nbsp;&nbsp;', $adNewspaper->adNewspaperPlacementDates);
 
                         $content[] = implode('&nbsp;&nbsp;', $itemText);

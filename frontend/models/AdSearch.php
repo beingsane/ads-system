@@ -30,6 +30,9 @@ class AdSearch extends Ad
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
@@ -79,10 +82,8 @@ class AdSearch extends Ad
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'ad.id' => $this->id,
-            'ad.job_id' => $this->job_id,
-        ]);
+        $query->andFilterWhere(['ad.id' => $this->id]);
+        $query->andFilterWhere(['ad.job_id' => $this->job_id]);
 
 
 
