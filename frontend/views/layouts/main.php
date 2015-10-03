@@ -35,13 +35,13 @@ AppAsset::register($this);
                         'class' => 'navbar-inverse navbar-fixed-top',
                     ],
                 ]);
-                $menuItems = [
-                    ['label' => Yii::t('app', 'Ads'), 'url' => Url::toRoute('/')],
-                ];
+
+                $menuItems = [];
                 if (Yii::$app->user->isGuest) {
                     // $menuItems[] = ['label' => Yii::t('app', 'Registration'), 'url' => ['/user/register']];
                     $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/user/login']];
                 } else {
+                    $menuItems[] = ['label' => Yii::t('app', 'Ads'), 'url' => Url::toRoute('/')];
                     $menuItems[] = ['label' => Yii::t('app', 'Export'), 'url' => ['/export/index']];
 
                     if (Yii::$app->user->can('admin')) {
