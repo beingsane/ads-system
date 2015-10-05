@@ -1,26 +1,28 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\ExportItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Ads');
+$this->title = Yii::t('app', 'Export');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Export'), 'url' => \common\helpers\UrlHelper::previous()];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+$items = [];
+foreach ($dataProvider->models as $model) {
+    $key = $model->adNewspaper->ad->job_id .'_' .$model->adNewspaper->newspaper_id .'_' .$model->placement_date;
+    $items[$key][] = $model;
+}
+
 ?>
 
 <div class="export-item-index">
-
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemOptions' => ['tag' => false],
-        'itemView' => function($item) use($searchModel) {
-            return $this->render('_export_item', ['item' => $item, 'searchModel' => $searchModel]);
-        },
-        'layout' => '{items}',
-    ]) ?>
-
+    <?php
+        foreach ($items as $key => $itemModels) {
+            echo $this->render('_export_item', ['itemModels' => $itemModels]);
+        }
+    ?>
 </div>
