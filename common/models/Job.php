@@ -72,6 +72,6 @@ class Job extends \yii\db\ActiveRecord
      */
     public function getAds()
     {
-        return $this->hasMany(Ad::className(), ['job_id' => 'id']);
+        return $this->hasMany(Ad::className(), ['job_id' => 'id'])->orderBy('id');
     }
 }

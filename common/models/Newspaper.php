@@ -75,7 +75,7 @@ class Newspaper extends \yii\db\ActiveRecord
      */
     public function getAdNewspapers()
     {
-        return $this->hasMany(AdNewspaper::className(), ['newspaper_id' => 'id']);
+        return $this->hasMany(AdNewspaper::className(), ['newspaper_id' => 'id'])->orderBy('id');
     }
 
     /**

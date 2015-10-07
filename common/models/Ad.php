@@ -107,7 +107,7 @@ class Ad extends \yii\db\ActiveRecord
      */
     public function getAdJobLocations()
     {
-        return $this->hasMany(AdJobLocation::className(), ['ad_id' => 'id']);
+        return $this->hasMany(AdJobLocation::className(), ['ad_id' => 'id'])->orderBy('id');
     }
 
     /**
@@ -115,7 +115,7 @@ class Ad extends \yii\db\ActiveRecord
      */
     public function getAdNewspapers()
     {
-        return $this->hasMany(AdNewspaper::className(), ['ad_id' => 'id']);
+        return $this->hasMany(AdNewspaper::className(), ['ad_id' => 'id'])->orderBy('id');
     }
 
 
