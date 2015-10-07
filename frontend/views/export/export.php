@@ -103,6 +103,9 @@ function getLocationCombination($models)
         }
     }
 
+    // sort by text is needed to correct random order in adJobLocations for right comparison in findCombination()
+    // else 2 same locations can be treated as different
+    sort($combination);
     return $combination;
 }
 
@@ -136,6 +139,7 @@ foreach ($tmpItems as $key => $models) {
     $mainKey = $ad->job_id .'_'. $combination_id;
     if (!isset($resultItems[$mainKey])) {
         $item = [
+            'mainKey' => $mainKey,
             'job' => $ad->job,
             'locations' => $combination,
             'newspapers_dates' => [],
@@ -164,7 +168,8 @@ uasort($resultItems, function($a, $b) {
     if (count($a['locations']) > count($b['locations'])) return -1;
     if (count($a['locations']) < count($b['locations'])) return 1;
 
-    return 0;
+    // equivalent elements are sorted by key to prevent random order
+    return strcmp($a['mainKey'], $b['mainKey']);
 });
 
 ?>
