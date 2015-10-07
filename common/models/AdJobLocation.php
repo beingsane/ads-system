@@ -57,4 +57,15 @@ class AdJobLocation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Ad::className(), ['id' => 'ad_id']);
     }
+
+    public function __toString()
+    {
+        $itemText = [];
+        if ($this->job_location) $itemText[] = $this->job_location;
+        if ($this->street_names) $itemText[] = $this->street_names;
+        if ($this->additional_info) $itemText[] = $this->additional_info;
+
+        $res = implode('. ', $itemText) .'.';
+        return $res;
+    }
 }
