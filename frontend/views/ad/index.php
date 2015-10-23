@@ -34,7 +34,7 @@ $this->title = Yii::t('app', 'Ads');
             <a data-toggle="collapse" href="#filter">
                 <?= Yii::t('app', 'Filter') ?>
             </a>
-            <?= Html::a('<span class="text-muted">Reset filter</span>', ['index'], ['class' => 'pull-right']) ?>
+            <?= Html::a('<span class="text-muted">'.Yii::t('app', 'Reset filter').'</span>', ['index'], ['class' => 'pull-right']) ?>
         </div>
         <div id="filter" class="panel-collapse collapse save-filter-state <?= isset($_COOKIE['filter-state']) && $_COOKIE['filter-state'] ? 'in' : 'out' ?>">
             <div class="panel-body">

@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <a data-toggle="collapse" href="#filter-export">
                 <?= Yii::t('app', 'Filter') ?>
             </a>
-            <?= Html::a('<span class="text-muted">Reset filter</span>', ['index'], ['class' => 'pull-right']) ?>
+            <?= Html::a('<span class="text-muted">'.Yii::t('app', 'Reset filter').'</span>', ['index'], ['class' => 'pull-right']) ?>
         </div>
         <div id="filter-export" class="panel-collapse collapse save-filter-state <?= isset($_COOKIE['filter-export-state']) && $_COOKIE['filter-export-state'] ? 'in' : 'out' ?>">
             <div class="panel-body">
